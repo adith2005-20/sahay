@@ -15,6 +15,7 @@ import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { Separator } from './ui/separator'
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
@@ -36,13 +37,35 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       })
       if (error) throw error
       // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push('/protected')
+      router.push('/dashboard')
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : 'An error occurred')
     } finally {
       setIsLoading(false)
     }
   }
+
+  const handleSocialLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const supabase = createClient()
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/oauth?next=/dashboard`,
+        },
+      })
+
+      if (error) throw error
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'An error occurred')
+      setIsLoading(false)
+    }
+  }
+
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -93,6 +116,20 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
               <Link href="/auth/sign-up" className="underline underline-offset-4">
                 Sign up
               </Link>
+            </div>
+          </form>
+            <div className="flex items-center my-6">
+            <Separator className="flex-1" />
+            <span className="mx-4 text-sm text-muted-foreground">or</span>
+            <Separator className="flex-1" />
+            </div>
+          
+          <form onSubmit={handleSocialLogin}>
+            <div className="flex flex-col gap-6">
+              {error && <p className="text-sm text-destructive-500">{error}</p>}
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? 'Logging in...' : <>Continue with Google</>}
+              </Button>
             </div>
           </form>
         </CardContent>

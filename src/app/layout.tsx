@@ -1,28 +1,35 @@
 import "@/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Poppins } from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import Header from "./_components/Header";
 
 export const metadata: Metadata = {
   title: "Sahay",
   description: "Built for Smart India Hackathon '25",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/sahay-sm.svg" }],
 };
 
-const geist = Geist({
+// const geist = Geist({
+//   subsets: ["latin"],
+//   variable: "--font-geist-sans",
+// });
+
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  weight: ["100","200","300","400","500"],
+  variable: "--font-poppins"
 });
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable}`}>
+    <html lang="en" className={`${poppins.variable}`}>
       <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider><Header/>{children}</TRPCReactProvider>
       </body>
     </html>
   );

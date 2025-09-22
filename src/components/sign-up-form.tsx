@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Separator } from './ui/separator'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -21,6 +22,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
   const [password, setPassword] = useState('')
   const [repeatPassword, setRepeatPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [name, setName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
@@ -41,14 +43,38 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
         email,
         password,
         options: {
+          data: {
+            full_name: name
+          },
           emailRedirectTo: `${window.location.origin}/protected`,
         },
       })
       if (error) throw error
-      router.push('/auth/sign-up-success')
+      router.push('/dashboard')
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : 'An error occurred')
     } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSocialLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const supabase = createClient()
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/oauth?next=/dashboard`,
+        },
+      })
+
+      if (error) throw error
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'An error occurred')
       setIsLoading(false)
     }
   }
@@ -63,6 +89,17 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
         <CardContent>
           <form onSubmit={handleSignUp}>
             <div className="flex flex-col gap-6">
+              <div className="grid gap-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Full name"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -108,6 +145,20 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
               <Link href="/auth/login" className="underline underline-offset-4">
                 Login
               </Link>
+            </div>
+          </form>
+          <div className="flex items-center my-6">
+            <Separator className="flex-1" />
+            <span className="mx-4 text-sm text-muted-foreground">or</span>
+            <Separator className="flex-1" />
+            </div>
+          
+          <form onSubmit={handleSocialLogin}>
+            <div className="flex flex-col gap-6">
+              {error && <p className="text-sm text-destructive-500">{error}</p>}
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? 'Logging in...' : 'Continue with Google'}
+              </Button>
             </div>
           </form>
         </CardContent>
