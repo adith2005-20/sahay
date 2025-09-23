@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
-// Correctly import the function to create a server client
 import { createClient } from '@/app/utils/supabase/server';
 import { cookies } from 'next/headers';
 
 // Define a type for the incoming request body for type safety
 interface CertificationRequestBody {
-  user_id: string;
+  user: string;
   certificate_number?: string;
   main_skill: string;
   secondary_skill?: string;
@@ -17,12 +16,12 @@ interface CertificationRequestBody {
 // Define types for the database table shapes
 interface SkillWallet {
   id: string;
-  user_id: string;
+  user: string;
 }
 
 interface Certification {
   id: string;
-  skill_wallet_id: string;
+  wallet: string;
   certificate_number: string | null;
   main_skill: string;
   secondary_skill: string | null;
@@ -35,17 +34,14 @@ interface Certification {
 export async function POST(request: Request) {
   try {
     const cookieStore = cookies();
-    // Awaiting client creation to resolve the Promise type error
     const supabaseServer = await createClient(cookieStore);
     
-    // Assert the type of the parsed JSON body using 'as' to resolve the lint error
     const body = await request.json() as CertificationRequestBody;
     
-    // WARNING: INSECURE - This accepts a user_id directly from the client.
-    // This is for MVP/Hackathon purposes ONLY. In a real application, you MUST
-    // get the user's identity securely on the server (e.g., from a session cookie).
+    // WARNING: INSECURE - This accepts a user ID directly from the client.
+    // This is for MVP/Hackathon purposes ONLY. 
     const {
-      user_id, // This is the insecure part.
+      user,
       certificate_number,
       main_skill,
       secondary_skill,
@@ -55,20 +51,20 @@ export async function POST(request: Request) {
     } = body;
 
     // Basic validation
-    if (!user_id || !certification_name || !main_skill || !issued_at) {
+    if (!user || !certification_name || !main_skill || !issued_at) {
       return NextResponse.json(
-        { error: "Missing required fields. user_id, certification_name, main_skill, and issued_at are required." },
+        { error: "Missing required fields. user, certification_name, main_skill, and issued_at are required." },
         { status: 400 }
       );
     }
 
-    // Find or create the user's skill wallet using the user_id from the request
+    // Find or create the user's skill wallet
     let skillWalletId: string;
 
     const { data: existingWallet, error: walletError } = await supabaseServer
       .from('skill_wallet')
       .select('id')
-      .eq('user_id', user_id) // Using the insecure user_id
+      .eq('user', user)
       .single<Pick<SkillWallet, 'id'>>();
 
     if (walletError && walletError.code !== 'PGRST116') { // PGRST116 is "No rows found"
@@ -80,7 +76,7 @@ export async function POST(request: Request) {
     } else {
       const { data: newWallet, error: newWalletError } = await supabaseServer
         .from('skill_wallet')
-        .insert({ user_id: user_id }) // Using the insecure user_id
+        .insert({ user: user })
         .select('id')
         .single<Pick<SkillWallet, 'id'>>();
       
@@ -92,7 +88,7 @@ export async function POST(request: Request) {
 
     // Insert the new certification linked to the skill wallet
     const newCertification = {
-      skill_wallet_id: skillWalletId,
+      wallet: skillWalletId,
       certificate_number: certificate_number ?? null,
       main_skill,
       secondary_skill: secondary_skill ?? null,
@@ -120,11 +116,9 @@ export async function POST(request: Request) {
     if (err instanceof SyntaxError) {
          return NextResponse.json({ error: 'Invalid JSON format in the request body.' }, { status: 400 });
     }
-    // Type guard to safely access error properties
     const errorMessage = err instanceof Error ? err.message : "An unknown error occurred.";
     console.error('API Error:', errorMessage);
     return NextResponse.json({ error: "An error occurred while processing the request.", details: errorMessage }, { status: 500 });
   }
 }
-
 
