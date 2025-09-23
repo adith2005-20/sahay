@@ -1,29 +1,35 @@
-# Create T3 App
+# 🌟 Sahay - Your Personal Career & Education Advisor
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+**Sahay** is a digital guidance platform designed to help students, particularly from government colleges and vocational institutes, make informed decisions about their future.  
+It bridges the awareness gap by providing personalized career paths, college information, and skill-building resources.
 
-## What's next? How do I make an app with this?
+---
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## 🚨 The Problem
+Many students face challenges such as:
+- Lack of clarity on which educational streams to pursue.  
+- Limited awareness of career opportunities available.  
+- Difficulty in choosing a path aligned with their interests.  
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+This often results in poor academic/career decisions and a decline in enrollment in valuable government institutions.  
+**Sahay** aims to solve this by being a **one-stop, personalized guide**.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+---
 
-## Learn More
+## ✨ Key Features
+- 🧠 **Personalized Assessments**: In-depth RIASEC and domain-specific quizzes to understand a student's aptitude and interests.  
+- 🗺️ **Career & Course Explorer**: A comprehensive directory of government colleges, ITIs, and the career paths they unlock.  
+- 🛠️ **Student Skill Wallet**: A digital portfolio for students to track their skills, certifications (like NPTEL), and projects.  
+- 🤝 **Community Hub**: Peer-to-peer forums ("Interest Circles") for students to connect, discuss, and support each other.  
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+---
 
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## 🛠️ Tech Stack
+- **Framework**: [Next.js (App Router)](https://nextjs.org/)  
+- **Language**: [TypeScript](https://www.typescriptlang.org/)  
+- **API**: [tRPC](https://trpc.io/)  
+- **Database & Auth**: [Supabase (PostgreSQL)](https://supabase.com/)  
+- **ORM**: [Drizzle](https://orm.drizzle.team/)  
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)  
