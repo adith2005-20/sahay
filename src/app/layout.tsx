@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 
 import { type Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Martel_Sans } from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import Header from "./_components/Header";
@@ -17,18 +17,18 @@ export const metadata: Metadata = {
 //   variable: "--font-geist-sans",
 // });
 
-const poppins = Poppins({
+const martelSans = Martel_Sans({
   subsets: ["latin"],
-  weight: ["100","200","300","400","500"],
-  variable: "--font-poppins"
+  weight: ["200","300","400"],
+  variable: "--font-martel-sans"
 });
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${poppins.variable}`}>
-      <body>
+    <html lang="en">
+      <body className={`${martelSans.className} antialiased`}>
         <TRPCReactProvider><Header/>{children}</TRPCReactProvider>
       </body>
     </html>
