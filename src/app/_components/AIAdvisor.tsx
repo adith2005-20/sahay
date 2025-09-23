@@ -177,7 +177,7 @@ export default function AIAdvisor() {
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          I use your latest RIASEC record to craft a tailored learning and career plan.
+          I&apos;ll use your latest RIASEC record to craft a tailored learning and career plan.
         </p>
         <div className="space-y-2">
           <label className="text-sm font-medium">Ask a follow-up (optional)</label>
