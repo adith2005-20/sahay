@@ -4,6 +4,7 @@ import { LogoutButton } from '@/components/logout-button'
 import { createClient } from '@/lib/server'
 import { CurrentUserAvatar } from '@/components/current-user-avatar'
 import { DashboardNextSteps } from '@/app/_components/DashboardNextSteps'
+import AIAdvisor from '@/app/_components/AIAdvisor'
 
 export default async function ProtectedPage() {
   const supabase = await createClient()
@@ -51,6 +52,7 @@ export default async function ProtectedPage() {
 
         {/* Next steps section with colorful motion cards */}
         <DashboardNextSteps />
+        <AIAdvisor />
       </div>
     </div>
   )
