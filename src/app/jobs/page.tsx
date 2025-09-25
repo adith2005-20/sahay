@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
-import { Search, MapPin, Users, X } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Search, MapPin, X, BrainCircuit, Loader2 } from 'lucide-react';
+import { createClient } from '@/app/utils/supabase/client'; // Make sure this path is correct
 
 // Updated Job interface to match the detailed data from the JSearch API.
 interface Job {
@@ -13,7 +14,7 @@ interface Job {
   job_state: string | null;
   job_country: string | null;
   job_apply_link: string;
-  job_posted_at: string;
+  job_posted_at_timestamp: number; 
   job_employment_type: string;
 }
 
@@ -38,7 +39,70 @@ const JobsPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [initialLoad, setInitialLoad] = useState(true);
-  
+
+  // --- State for the "Get Skills" button ---
+  const [isFetchingSkills, setIsFetchingSkills] = useState(false);
+  const [shouldSearchAfterTagsUpdate, setShouldSearchAfterTagsUpdate] = useState(false);
+
+
+  // --- Function to fetch skills from the skill wallet ---
+  const handleFetchSkills = async () => {
+    setIsFetchingSkills(true);
+    setError(null);
+    try {
+      // Get Supabase session on the client
+      const supabase = createClient();
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError || !session) {
+        throw new Error('You must be logged in to get skills.');
+      }
+      const userId = session.user.id;
+
+      // Send userId in the body of a POST request
+      const response = await fetch('/api/getSkills', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch skills.');
+      }
+      
+      const data = await response.json();
+      const fetchedSkills: string[] = data.jobTabs || [];
+
+      // Create new tags from the fetched skills, avoiding duplicates
+      const newTags = fetchedSkills
+        .map((skillName, index) => ({
+          id: `skill-${Date.now()}-${index}`,
+          name: skillName,
+          category: 'skill' as const,
+        }))
+        .filter(newTag => 
+          !searchTags.some(existingTag => existingTag.name.toLowerCase() === newTag.name.toLowerCase())
+        );
+
+      if (newTags.length > 0) {
+        setSearchTags(prevTags => [...prevTags, ...newTags]);
+        setShouldSearchAfterTagsUpdate(true); // Flag to trigger search in useEffect
+      }
+
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred while fetching skills.");
+      }
+    } finally {
+      setIsFetchingSkills(false);
+    }
+  };
+
   const addTag = (tag: Tag) => {
     setSearchTags([...searchTags, tag]);
     setSearchInput('');
@@ -59,12 +123,12 @@ const JobsPage = () => {
       const newTag: Tag = {
         id: `user-${Date.now()}`,
         name: searchInput.trim(),
-        category: 'skill', // Default category for user-entered tags
+        category: 'skill',
       };
       if (!searchTags.some(tag => tag.name.toLowerCase() === newTag.name.toLowerCase())) {
         addTag(newTag);
       } else {
-        setSearchInput(''); // Clear input even if it's a duplicate
+        setSearchInput('');
       }
     }
   };
@@ -79,7 +143,6 @@ const JobsPage = () => {
     setJobs([]);
     setInitialLoad(false);
 
-    // Combine tags and the current input value for the query
     const allSearchTerms = [...searchTags.map(tag => tag.name), searchInput.trim()].filter(Boolean);
     const query = allSearchTerms.join(' ');
 
@@ -89,11 +152,8 @@ const JobsPage = () => {
         throw new Error('Something went wrong. Please try again later.');
       }
       const result = await response.json() as { data?: JSearchApiResponse | Job[] };
-
-      // Safely access the jobs array, which might be nested one or two levels deep
       const jobsArray = Array.isArray(result.data) ? result.data : result.data?.data ?? [];
       setJobs(jobsArray);
-
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
@@ -103,6 +163,26 @@ const JobsPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+  
+  // --- useEffect to trigger search after skills are added ---
+  useEffect(() => {
+    if (shouldSearchAfterTagsUpdate) {
+      handleSearch();
+      setShouldSearchAfterTagsUpdate(false); // Reset the flag
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTags, shouldSearchAfterTagsUpdate]);
+
+  // Helper to format the job posting date
+  const formatJobPostDate = (timestamp: number) => {
+    const date = new Date(timestamp * 1000);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays <= 1) return 'Today';
+    if (diffDays <= 2) return 'Yesterday';
+    return `${diffDays} days ago`;
   };
 
   return (
@@ -135,17 +215,41 @@ const JobsPage = () => {
                     onKeyDown={handleKeyDown}
                   />
                 </div>
-                <button onClick={handleSearch} className="px-6 py-3 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 transition-colors self-stretch">
+                <button onClick={handleSearch} className="px-6 py-3 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 transition-colors self-stretch disabled:bg-blue-300" disabled={loading}>
                   Search
                 </button>
               </div>
             </div>
           </div>
+          
+          <div className="mt-4">
+            <button
+              onClick={handleFetchSkills}
+              disabled={isFetchingSkills}
+              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-green-300 disabled:cursor-not-allowed"
+            >
+              {isFetchingSkills ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Fetching Skills...
+                </>
+              ) : (
+                <>
+                  <BrainCircuit className="mr-2 h-4 w-4" />
+                  Get Your Skills From Skill Wallet
+                </>
+              )}
+            </button>
+          </div>
+
         </div>
 
         <div className="mt-12">
           {loading && (
-            <div className="text-center text-gray-600">Loading jobs...</div>
+             <div className="flex justify-center items-center py-10">
+                <Loader2 className="h-8 w-8 text-blue-600 animate-spin" />
+                <span className="ml-4 text-gray-600">Loading jobs...</span>
+            </div>
           )}
           {error && (
             <div className="text-center text-red-500 bg-red-100 p-4 rounded-lg">{error}</div>
@@ -157,7 +261,6 @@ const JobsPage = () => {
                   {jobs.map((job) => (
                     <a key={job.job_id} href={job.job_apply_link} target="_blank" rel="noopener noreferrer" className="block bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow duration-300">
                       <div className="flex items-start space-x-4">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={job.employer_logo ?? `https://placehold.co/60x60/E2E8F0/4A5568?text=${job.employer_name.charAt(0)}`}
                           alt={`${job.employer_name} logo`}
@@ -170,7 +273,7 @@ const JobsPage = () => {
                               <h3 className="font-bold text-lg text-gray-800 line-clamp-2">{job.job_title}</h3>
                               <p className="text-gray-600">{job.employer_name}</p>
                             </div>
-                            <span className="text-xs text-gray-500 whitespace-nowrap pt-1">{job.job_posted_at}</span>
+                            <span className="text-xs text-gray-500 whitespace-nowrap pt-1">{formatJobPostDate(job.job_posted_at_timestamp)}</span>
                           </div>
                           <div className="flex items-center mt-2 text-sm text-gray-500">
                             <MapPin className="w-4 h-4 mr-2 shrink-0" />
@@ -187,7 +290,7 @@ const JobsPage = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center text-gray-500">
+                <div className="text-center text-gray-500 py-10">
                   <h3 className="text-xl font-semibold">No jobs found</h3>
                   <p>Try adjusting your search tags to find more results.</p>
                 </div>
@@ -201,5 +304,3 @@ const JobsPage = () => {
 };
 
 export default JobsPage;
-
-
