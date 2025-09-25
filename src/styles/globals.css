@@ -18,10 +18,53 @@
   background-size: 200% 200%;
 }
 
+/* RTL Support Styles */
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.rtl .ltr-override {
+  direction: ltr;
+  text-align: left;
+}
+
+/* RTL-specific spacing adjustments */
+.rtl .ml-auto {
+  margin-right: auto;
+  margin-left: unset;
+}
+
+.rtl .mr-auto {
+  margin-left: auto;
+  margin-right: unset;
+}
+
+/* Language-specific font adjustments */
+html[lang="hi"] {
+  font-family:
+    "Martel Sans",
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+html[lang="ks"] {
+  font-family: "Noto Nastaliq Urdu", "Amiri", serif;
+  line-height: 1.8;
+}
+
+/* Fix for RTL dropdown menus */
+.rtl .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
+  --font-sans:
+    var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 

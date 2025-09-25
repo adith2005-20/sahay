@@ -1,19 +1,18 @@
+"use client";
 
 import { LatestPost } from "@/app/_components/post";
-import { api, HydrateClient } from "@/trpc/server";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTranslation } from "@/contexts/LanguageContext";
 
-export default async function Home() {
+export default function Home() {
+  const { t } = useTranslation();
 
   return (
-    <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-background text-white">
-        <Link href={'/dashboard'}>
-        <Button>Go to dashboard</Button>
-        </Link>
-        
-      </main>
-    </HydrateClient>
+    <main className="bg-background flex min-h-screen flex-col items-center justify-center text-white">
+      <Link href={"/dashboard"}>
+        <Button>{t("header.navigation.dashboard")}</Button>
+      </Link>
+    </main>
   );
 }
