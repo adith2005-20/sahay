@@ -1,0 +1,228 @@
+{
+  "header": {
+    "title": "सहाय में आपका स्वागत है",
+    "navigation": {
+      "dashboard": "डैशबोर्ड",
+      "profile": "प्रोफ़ाइल",
+      "jobs": "नौकरियां",
+      "certifications": "प्रमाणपत्र",
+      "quiz": "क्विज़"
+    }
+  },
+  "button": {
+    "changeLanguage": "भाषा बदलें",
+    "save": "सेव करें",
+    "cancel": "रद्द करें",
+    "submit": "जमा करें",
+    "login": "लॉगिन",
+    "logout": "लॉगआउट",
+    "signUp": "साइन अप करें",
+    "next": "अगला",
+    "previous": "पिछला",
+    "finish": "समाप्त करें",
+    "startQuiz": "क्विज़ शुरू करें"
+  },
+  "form": {
+    "firstName": "पहला नाम",
+    "lastName": "अंतिम नाम",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "phone": "फ़ोन नंबर",
+    "address": "पता",
+    "dateOfBirth": "जन्म तिथि",
+    "gender": "लिंग"
+  },
+  "auth": {
+    "login": {
+      "title": "लॉगिन",
+      "subtitle": "अपने खाते में लॉगिन करने के लिए नीचे अपना ईमेल दर्ज करें",
+      "emailPlaceholder": "m@example.com",
+      "forgotPassword": "अपना पासवर्ड भूल गए?",
+      "loggingIn": "लॉगिन हो रहा है...",
+      "continueWithGoogle": "Google के साथ जारी रखें",
+      "or": "या",
+      "dontHaveAccount": "कोई खाता नहीं है?",
+      "signUpLink": "साइन अप करें"
+    },
+    "signInTitle": "अपने खाते में साइन इन करें",
+    "signUpTitle": "नया खाता बनाएं",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "dontHaveAccount": "कोई खाता नहीं है?",
+    "alreadyHaveAccount": "पहले से खाता है?",
+    "resetPassword": "पासवर्ड रीसेट करें"
+  },
+  "dashboard": {
+    "welcome": "वापसी पर स्वागत है!",
+    "nextSteps": "आपके अगले कदम",
+    "completedQuizzes": "पूर्ण क्विज़",
+    "recommendations": "AI सिफारिशें",
+    "recentActivity": "हाल की गतिविधि",
+    "onboarding": "ऑनबोर्डिंग",
+    "takeQuiz": "ऑनबोर्डिंग क्विज़ लें",
+    "quizDescription": "RIASEC क्विज़ पूरा करके अपना व्यक्तिगत अनुभव शुरू करें। इसमें केवल कुछ मिनट लगते हैं।",
+    "profile": "प्रोफ़ाइल",
+    "completeProfile": "अपनी प्रोफ़ाइल पूरी करें",
+    "profileDescription": "सहाय पर अपने अनुभव को बेहतर बनाने के लिए अतिरिक्त विवरण जोड़ें।",
+    "updateProfile": "प्रोफ़ाइल अपडेट करें",
+    "deepDive": "गहराई से जानें",
+    "studentQuiz": "9वीं या 10वीं के छात्रों के लिए",
+    "studentQuizDescription": "आगे के रास्ते के बारे में अनिश्चित हैं? यह मूल्यांकन लें और अपनी विशेषता जानें।"
+  },
+  "aiAdvisor": {
+    "title": "AI करियर सलाहकार",
+    "description": "मैं आपके नवीनतम RIASEC रिकॉर्ड का उपयोग करके एक अनुकूलित शिक्षण और करियर योजना तैयार करूंगा।",
+    "askFollowUp": "फॉलो-अप पूछें (वैकल्पिक)",
+    "placeholder": "उदा., रचनात्मकता को स्थिरता के साथ संतुलित करने वाले विकल्पों पर जोर दें",
+    "defaultPrompt": "मेरे RIASEC परिणामों के आधार पर एक व्यक्तिगत मार्गदर्शन योजना बनाएं।",
+    "thinking": "सोच रहा है…",
+    "generatePlan": "योजना बनाएं",
+    "loadingRiasec": "RIASEC लोड हो रहा है…",
+    "failedResponse": "AI प्रतिक्रिया प्राप्त करने में विफल",
+    "unexpectedResponse": "अप्रत्याशित AI प्रतिक्रिया",
+    "failedCall": "AI कॉल करने में विफल"
+  },
+  "quiz": {
+    "title": "करियर मूल्यांकन प्रश्नोत्तरी",
+    "instructions": "व्यक्तिगत करियर सिफारिशें पाने के लिए निम्नलिखित प्रश्नों का ईमानदारी से उत्तर दें",
+    "question": "प्रश्न {{number}} का {{total}}",
+    "progress": "प्रगति: {{percentage}}%",
+    "riasec": {
+      "title": "RIASEC मूल्यांकन",
+      "description": "मैचिंग करियर पथ खोजने के लिए अपनी मुख्य रुचियों की खोज करें।",
+      "questions": "प्रश्न",
+      "estimatedTime": "अनुमानित समय",
+      "timeUnit": "मिनट",
+      "tips": {
+        "title": "सर्वोत्तम परिणामों के लिए सुझाव",
+        "honest": "आप क्या सोचते हैं कि आपको करना चाहिए, इसके आधार पर नहीं बल्कि आप क्या पसंद करते हैं, इसके आधार पर ईमानदारी से उत्तर दें।",
+        "instinct": "इसे ज्यादा न सोचें—आपकी पहली प्रवृत्ति आमतौर पर सबसे अच्छी होती है।",
+        "noWrong": "कोई सही या गलत उत्तर नहीं हैं। यह आपके बारे में है!"
+      },
+      "startButton": "मूल्यांकन शुरू करें",
+      "completed": {
+        "title": "मूल्यांकन पूरा!",
+        "description": "आपकी रुचियों को साझा करने के लिए धन्यवाद। आपके उत्तर सहेजे गए हैं।",
+        "topInterests": "आपके शीर्ष 3 रुचि क्षेत्र (RIASEC कोड)",
+        "personalization": "अब हम इन परिणामों का उपयोग आपके डैशबोर्ड पर आपकी करियर और शिक्षा सिफारिशों को व्यक्तिगत बनाने के लिए करेंगे।"
+      },
+      "scales": {
+        "stronglyDisagree": "दृढ़ता से असहमत",
+        "neutral": "तटस्थ",
+        "stronglyAgree": "दृढ़ता से सहमत",
+        "notInterested": "बिल्कुल रुचि नहीं",
+        "somewhatInterested": "कुछ रुचि है",
+        "veryInterested": "बहुत रुचि है"
+      }
+    },
+    "domain": {
+      "title": "डोमेन मूल्यांकन (IX और X)",
+      "description": "आपकी शक्तियों और प्राथमिकताओं को समझने में हमारी मदद के लिए कुछ प्रश्नों के उत्तर दें।",
+      "tips": {
+        "title": "सर्वोत्तम परिणामों के लिए सुझाव",
+        "honest": "अपने उत्तरों के साथ ईमानदार रहें।",
+        "personalize": "यह हमें आपके अनुभव को व्यक्तिगत बनाने में मदद करेगा।"
+      },
+      "startButton": "मूल्यांकन शुरू करें",
+      "completed": {
+        "title": "मूल्यांकन पूरा!",
+        "description": "आपके उत्तरों के लिए धन्यवाद। हम अब आपके डैशबोर्ड को व्यक्तिगत बना रहे हैं।"
+      }
+    }
+  },
+  "jobs": {
+    "title": "अपनी सही नौकरी खोजें",
+    "subtitle": "आपके लिए तैयार की गई नौकरियों की खोज करें",
+    "searchPlaceholder": "नौकरियों, कौशल या स्थान की खोज करें...",
+    "addMore": "और जोड़ें...",
+    "searchButton": "खोजें",
+    "loadingJobs": "नौकरियां लोड हो रही हैं...",
+    "searchError": "कृपया खोज बार में कोई टैग जोड़ें या टाइप करें।",
+    "noJobsFound": "आपके मानदंडों से मेल खाने वाली कोई नौकरी नहीं मिली",
+    "applyNow": "अभी आवेदन करें",
+    "viewDetails": "विवरण देखें",
+    "salary": "वेतन",
+    "location": "स्थान",
+    "company": "कंपनी",
+    "requirements": "आवश्यकताएं",
+    "benefits": "लाभ",
+    "posted": "पोस्ट किया गया",
+    "employmentType": "रोजगार का प्रकार"
+  },
+  "certifications": {
+    "title": "प्रमाणपत्र",
+    "addCertification": "प्रमाणपत्र जोड़ें",
+    "noCertifications": "अभी तक कोई प्रमाणपत्र नहीं जोड़ा गया",
+    "issuedBy": "द्वारा जारी",
+    "issuedDate": "जारी करने की तारीख",
+    "expiryDate": "समाप्ति तिथि",
+    "form": {
+      "userId": "उपयोगकर्ता आईडी",
+      "userIdPlaceholder": "अपनी उपयोगकर्ता आईडी दर्ज करें (परीक्षण के लिए)",
+      "certificationName": "प्रमाणपत्र का नाम",
+      "certificationNamePlaceholder": "जैसे, प्रमाणित जावास्क्रिप्ट डेवलपर",
+      "mainSkill": "मुख्य कौशल",
+      "mainSkillPlaceholder": "जैसे, जावास्क्रिप्ट",
+      "secondarySkill": "द्वितीयक कौशल",
+      "secondarySkillPlaceholder": "जैसे, रिएक्ट (वैकल्पिक)",
+      "certificateNumber": "प्रमाणपत्र संख्या या आईडी",
+      "certificateNumberPlaceholder": "प्रमाणपत्र संख्या दर्ज करें (वैकल्पिक)",
+      "issueDate": "जारी करने की तारीख",
+      "certificationFile": "प्रमाणपत्र फ़ाइल",
+      "fileFormats": "स्वीकृत प्रारूप: PDF, PNG, JPG (अधिकतम 10MB)",
+      "required": "*"
+    },
+    "messages": {
+      "submitSuccess": "प्रमाणपत्र सफलतापूर्वक जोड़ा गया!",
+      "submitError": "एक अनपेक्षित त्रुटि हुई।",
+      "submitting": "जमा कर रहे हैं...",
+      "submitCertification": "प्रमाणपत्र जमा करें",
+      "pleaseSelectFile": "कृपया अपलोड करने के लिए एक प्रमाणपत्र फ़ाइल चुनें।"
+    }
+  },
+  "profile": {
+    "title": "खाता सेटिंग्स",
+    "subtitle": "अपनी खाता जानकारी और प्राथमिकताओं का प्रबंधन करें।",
+    "photo": {
+      "title": "आपकी फ़ोटो",
+      "description": "यह आपकी प्रोफ़ाइल पर प्रदर्शित होगी।",
+      "changePhoto": "फ़ोटो बदलें",
+      "changePhotoAria": "प्रोफ़ाइल चित्र बदलें"
+    },
+    "form": {
+      "username": "उपयोगकर्ता नाम",
+      "firstName": "पहला नाम",
+      "lastName": "अंतिम नाम",
+      "emailAddress": "ईमेल पता",
+      "collegeName": "कॉलेज का नाम",
+      "location": "स्थान",
+      "phoneNumber": "फ़ोन नंबर",
+      "birthday": "जन्मदिन"
+    },
+    "messages": {
+      "fileSizeError": "फ़ाइल का आकार 5MB से कम होना चाहिए",
+      "profileUpdated": "प्रोफ़ाइल सफलतापूर्वक अपडेट हो गई!",
+      "updateError": "त्रुटि: {{message}}",
+      "saving": "सहेज रहे हैं...",
+      "save": "सहेजें"
+    }
+  },
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "error": "एक त्रुटि हुई",
+    "success": "सफलता!",
+    "warning": "चेतावनी",
+    "info": "जानकारी",
+    "close": "बंद करें",
+    "search": "खोजें",
+    "filter": "फ़िल्टर",
+    "sort": "क्रम",
+    "date": "तारीख",
+    "time": "समय",
+    "name": "नाम",
+    "description": "विवरण",
+    "status": "स्थिति",
+    "retry": "पुनः प्रयास करें",
+    "refresh": "रिफ्रेश करें"
+  }
+}

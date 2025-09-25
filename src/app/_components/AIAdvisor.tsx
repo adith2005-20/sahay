@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useMemo, useState } from 'react';
-import { createClient } from '@/app/utils/supabase/client';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { useEffect, useMemo, useState } from "react";
+import { createClient } from "@/app/utils/supabase/client";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 type AiOk = { output: string };
 type AiErr = { error: string; details?: string };
@@ -19,27 +20,26 @@ type RiasecRecord = {
 };
 
 export default function AIAdvisor() {
+  const { t } = useTranslation();
   const supabase = useMemo(() => createClient(), []);
   const [loading, setLoading] = useState(false);
   const [riasec, setRiasec] = useState<RiasecRecord | null>(null);
-  const [prompt, setPrompt] = useState<string>(
-    'Create a personalized guidance plan based on my RIASEC results.'
-  );
-  const [answer, setAnswer] = useState<string>('');
-  const [err, setErr] = useState<string>('');
+  const [prompt, setPrompt] = useState<string>("");
+  const [answer, setAnswer] = useState<string>("");
+  const [err, setErr] = useState<string>("");
 
   const isObject = (v: unknown): v is Record<string, unknown> =>
-    typeof v === 'object' && v !== null;
+    typeof v === "object" && v !== null;
 
   // Very small Markdown -> HTML converter for headings, bold/italic, lists, and paragraphs.
   // Also escapes HTML first to mitigate injection.
   const escapeHtml = (str: string) =>
     str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/\"/g, '&quot;')
-      .replace(/'/g, '&#39;');
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
 
   const mdToHtml = (md: string) => {
     const escaped = escapeHtml(md);
@@ -49,7 +49,7 @@ export default function AIAdvisor() {
     let inUl = false;
     const closeUl = () => {
       if (inUl) {
-        html.push('</ul>');
+        html.push("</ul>");
         inUl = false;
       }
     };
@@ -57,10 +57,10 @@ export default function AIAdvisor() {
     const formatInline = (s: string) =>
       s
         // bold **text**
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
         // italic _text_ or *text*
-        .replace(/(^|\W)_(.+?)_($|\W)/g, '$1<em>$2</em>$3')
-        .replace(/\*(.+?)\*/g, '<em>$1</em>');
+        .replace(/(^|\W)_(.+?)_($|\W)/g, "$1<em>$2</em>$3")
+        .replace(/\*(.+?)\*/g, "<em>$1</em>");
 
     for (const raw of lines) {
       const line = raw.trimEnd();
@@ -72,8 +72,8 @@ export default function AIAdvisor() {
       const h = /^(#{1,6})\s+(.*)$/.exec(line);
       if (h) {
         closeUl();
-        const level = (h?.[1]?.length ?? 1);
-        const hText = h?.[2] ?? '';
+        const level = h?.[1]?.length ?? 1;
+        const hText = h?.[2] ?? "";
         html.push(`<h${level}>${formatInline(hText)}</h${level}>`);
         continue;
       }
@@ -81,10 +81,10 @@ export default function AIAdvisor() {
       const li = /^[-*]\s+(.*)$/.exec(line);
       if (li) {
         if (!inUl) {
-          html.push('<ul>');
+          html.push("<ul>");
           inUl = true;
         }
-        const liText = li?.[1] ?? '';
+        const liText = li?.[1] ?? "";
         html.push(`<li>${formatInline(liText)}</li>`);
         continue;
       }
@@ -93,25 +93,25 @@ export default function AIAdvisor() {
       html.push(`<p>${formatInline(line)}</p>`);
     }
     closeUl();
-    return html.join('\n');
+    return html.join("\n");
   };
 
   useEffect(() => {
     const fetchLatest = async () => {
-      setErr('');
+      setErr("");
       try {
         const userResult = await supabase.auth.getUser();
         if (userResult.error || !userResult.data?.user) {
-          setErr('Could not fetch user.');
+          setErr("Could not fetch user.");
           return;
         }
         const uid = userResult.data.user.id;
 
         const res = await supabase
-          .from('user_riasec_record')
-          .select('*')
-          .eq('user_id', uid)
-          .order('created_at', { ascending: false })
+          .from("user_riasec_record")
+          .select("*")
+          .eq("user_id", uid)
+          .order("created_at", { ascending: false })
           .limit(1)
           .maybeSingle();
 
@@ -125,7 +125,7 @@ export default function AIAdvisor() {
         }
         setRiasec(rec);
       } catch (e: unknown) {
-        const msg = e instanceof Error ? e.message : 'Unknown error';
+        const msg = e instanceof Error ? e.message : "Unknown error";
         setErr(msg);
       }
     };
@@ -134,36 +134,38 @@ export default function AIAdvisor() {
 
   const onAsk = async () => {
     if (!riasec) {
-      setErr('No RIASEC record found for your account.');
+      setErr("No RIASEC record found for your account.");
       return;
     }
     setLoading(true);
-    setAnswer('');
-    setErr('');
+    setAnswer("");
+    setErr("");
     try {
-      const res = await fetch('/api/ai/advisor', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/ai/advisor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ riasec, prompt }),
       });
       const jsonUnknown: unknown = await res.json();
       if (!res.ok) {
-        const msg = isObject(jsonUnknown) && typeof jsonUnknown.error === 'string'
-          ? jsonUnknown.error
-          : 'Failed to get AI response';
+        const msg =
+          isObject(jsonUnknown) && typeof jsonUnknown.error === "string"
+            ? jsonUnknown.error
+            : t("aiAdvisor.failedResponse");
         setErr(msg);
       } else {
-        const output = isObject(jsonUnknown) && typeof jsonUnknown.output === 'string'
-          ? jsonUnknown.output
-          : null;
+        const output =
+          isObject(jsonUnknown) && typeof jsonUnknown.output === "string"
+            ? jsonUnknown.output
+            : null;
         if (output) {
           setAnswer(output);
         } else {
-          setErr('Unexpected AI response');
+          setErr(t("aiAdvisor.unexpectedResponse"));
         }
       }
     } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : 'Failed to call AI';
+      const msg = e instanceof Error ? e.message : t("aiAdvisor.failedCall");
       setErr(msg);
     } finally {
       setLoading(false);
@@ -173,30 +175,38 @@ export default function AIAdvisor() {
   return (
     <Card className="mt-8">
       <CardHeader>
-        <CardTitle>AI Career Advisor</CardTitle>
+        <CardTitle>{t("aiAdvisor.title")}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          I&apos;ll use your latest RIASEC record to craft a tailored learning and career plan.
+          {t("aiAdvisor.description")}
         </p>
         <div className="space-y-2">
-          <label className="text-sm font-medium">Ask a follow-up (optional)</label>
+          <label className="text-sm font-medium">
+            {t("aiAdvisor.askFollowUp")}
+          </label>
           <textarea
             value={prompt}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
-            placeholder="e.g., Emphasize options that balance creativity with stability"
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setPrompt(e.target.value)
+            }
+            placeholder={t("aiAdvisor.placeholder")}
             rows={3}
-            className="w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60 dark:bg-neutral-900 dark:border-neutral-800"
+            className="w-full rounded-md border border-neutral-200 bg-white px-3 py-2 text-sm shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-violet-500/60 dark:border-neutral-800 dark:bg-neutral-900"
           />
         </div>
         <div className="flex gap-3">
           <Button onClick={onAsk} disabled={loading}>
-            {loading ? 'Thinking…' : (riasec ? 'Generate Plan' : 'Loading RIASEC…')}
+            {loading
+              ? t("aiAdvisor.thinking")
+              : riasec
+                ? t("aiAdvisor.generatePlan")
+                : t("aiAdvisor.loadingRiasec")}
           </Button>
           {err && <span className="text-sm text-red-600">{err}</span>}
         </div>
         {answer && (
-          <div className="prose prose-neutral dark:prose-invert max-w-none border rounded-md p-4 bg-white/50 dark:bg-neutral-900/50">
+          <div className="prose prose-neutral dark:prose-invert max-w-none rounded-md border bg-white/50 p-4 dark:bg-neutral-900/50">
             <div dangerouslySetInnerHTML={{ __html: mdToHtml(answer) }} />
           </div>
         )}

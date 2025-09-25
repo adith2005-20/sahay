@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 import { Martel_Sans } from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import Header from "./_components/Header";
 
 export const metadata: Metadata = {
@@ -19,8 +20,8 @@ export const metadata: Metadata = {
 
 const martelSans = Martel_Sans({
   subsets: ["latin"],
-  weight: ["200","300","400"],
-  variable: "--font-martel-sans"
+  weight: ["200", "300", "400"],
+  variable: "--font-martel-sans",
 });
 
 export default function RootLayout({
@@ -28,8 +29,20 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Add fonts for different languages */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className={`${martelSans.className} antialiased`}>
-        <TRPCReactProvider><Header/>{children}</TRPCReactProvider>
+        <LanguageProvider>
+          <TRPCReactProvider>
+            <Header />
+            {children}
+          </TRPCReactProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

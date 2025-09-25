@@ -1,0 +1,228 @@
+{
+  "header": {
+    "title": "سہایس منز خوش آمدید",
+    "navigation": {
+      "dashboard": "ڈیش بورڈ",
+      "profile": "پروفایل",
+      "jobs": "نوکرؠ",
+      "certifications": "سرٹیفکیٹ",
+      "quiz": "کوز"
+    }
+  },
+  "button": {
+    "changeLanguage": "زَبان بَدلِیٚو",
+    "save": "محفوظ کریو",
+    "cancel": "منسوخ کریو",
+    "submit": "جمع کریو",
+    "login": "لاگ ان",
+    "logout": "لاگ آؤٹ",
+    "signUp": "سائن اپ کریو",
+    "next": "اگلہ",
+    "previous": "پتِہ",
+    "finish": "مکمل کریو",
+    "startQuiz": "کوز شروع کریو"
+  },
+  "form": {
+    "firstName": "گۄڈنؠک ناو",
+    "lastName": "چھیوک ناو",
+    "email": "ای میل",
+    "password": "پاس ورڈ",
+    "confirmPassword": "پاس ورڈک تصدیق",
+    "phone": "فون نمبر",
+    "address": "پتہ",
+    "dateOfBirth": "زامہ تاریخ",
+    "gender": "جنس"
+  },
+  "auth": {
+    "login": {
+      "title": "لاگ ان",
+      "subtitle": "پنن اکاؤنٹس منز لاگ ان گژھنہ خاطرہ ہیٹھ پننہ ای میل داخل کریو",
+      "emailPlaceholder": "m@example.com",
+      "forgotPassword": "پنن پاس ورڈ وُن؟",
+      "loggingIn": "لاگ ان گژھان...",
+      "continueWithGoogle": "Google سان جاری تھاویو",
+      "or": "یا",
+      "dontHaveAccount": "اکاؤنٹ چھنہ؟",
+      "signUpLink": "سائن اپ کریو"
+    },
+    "signInTitle": "پنن اکاؤنٹس منز سائن ان کریو",
+    "signUpTitle": "نو اکاؤنٹ بناویو",
+    "forgotPassword": "پاس ورڈ وُن؟",
+    "dontHaveAccount": "اکاؤنٹ چھنہ؟",
+    "alreadyHaveAccount": "پہلے کھۄتہ اکاؤنٹ چھا؟",
+    "resetPassword": "پاس ورڈ ریسیٹ کریو"
+  },
+  "dashboard": {
+    "welcome": "واپسی تہ خوش آمدید!",
+    "nextSteps": "تُہند اگلہ قدم",
+    "completedQuizzes": "مکمل کۄرمُت کوزہ",
+    "recommendations": "AI سفارشات",
+    "recentActivity": "حالیہ سرگرمی",
+    "onboarding": "آن بورڈنگ",
+    "takeQuiz": "آن بورڈنگ کوز کریو",
+    "quizDescription": "RIASEC کوز مکمل کرتھ پننہ ذاتی تجربہ شروع کریو۔ ییتھ صرف کینژھہ منٹ لاگان۔",
+    "profile": "پروفایل",
+    "completeProfile": "پنن پروفایل مکمل کریو",
+    "profileDescription": "سہای پیٹھ پنن تجربہ بہتر بناونہ خاطرہ اضافی تفصیلات شامل کریو۔",
+    "updateProfile": "پروفایل اپ ڈیٹ کریو",
+    "deepDive": "کھۄر تہ جانکاری",
+    "studentQuiz": "9م یا 10م جماعتس طالب علمن خاطرہ",
+    "studentQuizDescription": "اگتہ بات کن راہ کیا چھ؟ یہ تشخیص کریو تہ پنن صلاحیت سمجھیو۔"
+  },
+  "aiAdvisor": {
+    "title": "AI کریئر مشیر",
+    "description": "بہ تُہندِ تازہ RIASEC ریکارڈ استعمال کرتھ اکھ موزوں تعلیمی تہ کریئر منصوبہ بناوم۔",
+    "askFollowUp": "فالو اپ پریژھیو (اختیاری)",
+    "placeholder": "مثال، تخلیقی صلاحیت کو استحکام کے ساتھ متوازن کرنے والے اختیارات پر زور دیں",
+    "defaultPrompt": "میں RIASEC نتایجن بنیادا پیٹھ اکھ ذاتی رہنمائی منصوبہ بناویو۔",
+    "thinking": "سوچان…",
+    "generatePlan": "منصوبہ بناویو",
+    "loadingRiasec": "RIASEC لوڈ گژھان…",
+    "failedResponse": "AI جواب حاصل کرنہ منز ناکام",
+    "unexpectedResponse": "غیر متوقع AI جواب",
+    "failedCall": "AI کال کرنہ منز ناکام"
+  },
+  "quiz": {
+    "title": "کیریئر جانچ کوز",
+    "instructions": "ذاتی کیریئر تجاویز حاصل کرنے کے لیے درج ذیل سوالات کا ایمانداری سے جواب دیں",
+    "question": "سوال {{number}} از {{total}}",
+    "progress": "پیش قدمی: {{percentage}}%",
+    "riasec": {
+      "title": "RIASEC جانچ",
+      "description": "میچنگ کیریئر راہ لبنے کے لیے اپنی بنیادی دلچسپیوں کی دریافت کریو۔",
+      "questions": "سوال",
+      "estimatedTime": "تخمینی وقت",
+      "timeUnit": "منٹ",
+      "tips": {
+        "title": "بہترین نتائج کے لیے تجاویز",
+        "honest": "آپ کیا سوچدے ہیں کہ آپ کو کرنا چاہیے، اس کی بنیاد پر نہیں بلکہ آپ کیا پسند کردے ہیں، اس کی بنیاد پر ایمانداری سے جواب دیو۔",
+        "instinct": "زیادہ مت سوچو—تُہنز پہلی فطرت عام طور پر بہترین ہوتی۔",
+        "noWrong": "کوئی صحیح یا غلط جوابات نہیں۔ یہ تُہندے بارے میں چھُ!"
+      },
+      "startButton": "جانچ شروع کریو",
+      "completed": {
+        "title": "جانچ مکمل!",
+        "description": "تُہنز دلچسپیاں شیئر کرنے کے لیے شکریہ۔ تُہندے جوابات محفوظ کرنہ آمتے۔",
+        "topInterests": "تُہندے ٹاپ 3 دلچسپی علاقے (RIASEC کوڈ)",
+        "personalization": "اب اسے تُہندے ڈیش بورڈ پیٹھ تُہنز کیریئر اور تعلیمی سفارشات کو ذاتی بنانے کے لیے استعمال کرگے۔"
+      },
+      "scales": {
+        "stronglyDisagree": "سخت اختلاف",
+        "neutral": "غیر جانبدار",
+        "stronglyAgree": "سخت اتفاق",
+        "notInterested": "بالکل دلچسپی نہیں",
+        "somewhatInterested": "کج دلچسپی چھُ",
+        "veryInterested": "زیادہ دلچسپی چھُ"
+      }
+    },
+    "domain": {
+      "title": "ڈومین جانچ (IX اور X)",
+      "description": "تُہنز طاقتوں اور ترجیحات کو سمجھنے میں اسنز مدد کے لیے کج سوالوں کے جواب دیو۔",
+      "tips": {
+        "title": "بہترین نتائج کے لیے تجاویز",
+        "honest": "اپنے جوابوں کے ساتھ ایمانداری رکھو۔",
+        "personalize": "یہ اسنز تُہندے تجربے کو ذاتی بنانے میں مدد کرگا۔"
+      },
+      "startButton": "جانچ شروع کریو",
+      "completed": {
+        "title": "جانچ مکمل!",
+        "description": "تُہندے جوابوں کے لیے شکریہ۔ اسے ہن تُہندا ڈیش بورڈ ذاتی بنا رہے۔"
+      }
+    }
+  },
+  "jobs": {
+    "title": "پنن کامیاب نوکری ژھانڈیو",
+    "subtitle": "تُہندے لیے تیار کردہ نوکریاں دریافت کریو",
+    "searchPlaceholder": "نوکریاں، مہارت یا جگہ تلاش کریو...",
+    "addMore": "ہور شامل کریو...",
+    "searchButton": "تلاش کریو",
+    "loadingJobs": "نوکریاں لوڈ گژھان...",
+    "searchError": "مہربانی کرتھ تلاش بارس منز کانہہ ٹیگ شامل کریو یا ٹائپ کریو۔",
+    "noJobsFound": "تُہندین معیارن مطابق کانہہ نوکری نہ ملی",
+    "applyNow": "وۄن درخواست کریو",
+    "viewDetails": "تفصیلات ویکھیو",
+    "salary": "تنخواہ",
+    "location": "جاے",
+    "company": "کمپنی",
+    "requirements": "ضروریات",
+    "benefits": "فوائد",
+    "posted": "پوسٹ کرنہ آمت",
+    "employmentType": "ملازمت ہُند قسم"
+  },
+  "certifications": {
+    "title": "سرٹیفکیٹ",
+    "addCertification": "سرٹیفکیٹ شامل کریو",
+    "noCertifications": "وۄنہ تام کانہہ سرٹیفکیٹ شامل نہ کرنہ آمُت",
+    "issuedBy": "ذریعہ جاری",
+    "issuedDate": "جاری کرنُک تاریخ",
+    "expiryDate": "ختم گژھنُک تاریخ",
+    "form": {
+      "userId": "یوزر آئی ڈی",
+      "userIdPlaceholder": "اپنی یوزر آئی ڈی داخل کریو (ٹیسٹنگ کے لیے)",
+      "certificationName": "سرٹیفکیٹ کا ناو",
+      "certificationNamePlaceholder": "مثال، سرٹیفائیڈ جاوا اسکرپٹ ڈیولپر",
+      "mainSkill": "بنیادی مہارت",
+      "mainSkillPlaceholder": "مثال، جاوا اسکرپٹ",
+      "secondarySkill": "ثانوی مہارت",
+      "secondarySkillPlaceholder": "مثال، ری ایکٹ (اختیاری)",
+      "certificateNumber": "سرٹیفکیٹ نمبر یا آئی ڈی",
+      "certificateNumberPlaceholder": "سرٹیفکیٹ نمبر داخل کریو (اختیاری)",
+      "issueDate": "جاری کرنُک تاریخ",
+      "certificationFile": "سرٹیفکیٹ فائل",
+      "fileFormats": "قبول شدہ فارمیٹس: PDF، PNG، JPG (زیادہ سے زیادہ 10MB)",
+      "required": "*"
+    },
+    "messages": {
+      "submitSuccess": "سرٹیفکیٹ کامیابی سے شامل کرنہ آیا!",
+      "submitError": "اکھ غیر متوقع خرابی آی۔",
+      "submitting": "جمع کران...",
+      "submitCertification": "سرٹیفکیٹ جمع کریو",
+      "pleaseSelectFile": "مہربانی کرتہ اپ لوڈ کرنے کے لیے سرٹیفکیٹ فائل منتخب کریو۔"
+    }
+  },
+  "profile": {
+    "title": "اکاؤنٹ سیٹنگز",
+    "subtitle": "اپنی اکاؤنٹ کی معلومات اور ترجیحات کا انتظام کریو۔",
+    "photo": {
+      "title": "تُہنز فوٹو",
+      "description": "یہ تُہندی پروفائل پیٹھ ظاہر گژھ۔",
+      "changePhoto": "فوٹو تبدیل کریو",
+      "changePhotoAria": "پروفائل تصویر تبدیل کریو"
+    },
+    "form": {
+      "username": "صارف ناو",
+      "firstName": "گاڑنیُک ناو",
+      "lastName": "آخری ناو",
+      "emailAddress": "ای میل پتہ",
+      "collegeName": "کالج کا ناو",
+      "location": "جگہ",
+      "phoneNumber": "فون نمبر",
+      "birthday": "پیدائش کا دن"
+    },
+    "messages": {
+      "fileSizeError": "فائل کا سائز 5MB کم ہونا ضروری",
+      "profileUpdated": "پروفائل کامیابی سے اپڈیٹ گژھ!",
+      "updateError": "خرابی: {{message}}",
+      "saving": "محفوظ کران...",
+      "save": "محفوظ کریو"
+    }
+  },
+  "common": {
+    "loading": "لوڈ گژھان...",
+    "error": "اکھ غلطی آی",
+    "success": "کامیابی!",
+    "warning": "خبردار",
+    "info": "معلومات",
+    "close": "بند کریو",
+    "search": "تلاش",
+    "filter": "فلٹر",
+    "sort": "ترتیب",
+    "date": "تاریخ",
+    "time": "وقت",
+    "name": "ناو",
+    "description": "تفصیل",
+    "status": "حالت",
+    "retry": "دوبارہ کوشش کریو",
+    "refresh": "تازہ کریو"
+  }
+}

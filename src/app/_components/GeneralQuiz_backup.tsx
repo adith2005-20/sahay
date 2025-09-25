@@ -45,7 +45,7 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
     "intro" | "in_progress" | "completed"
   >("intro");
   const [currentQuestionId, setCurrentQuestionId] = useState<string | null>(
-    quizData.startQuestionID,
+    quizData.startQuestionId,
   );
   const [results, setResults] = useState<Record<string, unknown>>({});
   const [history, setHistory] = useState<ResponseHistory>({});
@@ -70,21 +70,23 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
 
     // Update results based on profileImpact
     const newResults = { ...results };
-    const impact = answer.profile_impact;
-
-    // Merge the profile impact into results using lodash merge
-    merge(newResults, impact);
+    const impact = question.profileImpact.domain_scores;
+    for (const key in impact) {
+      if (impact[key] === "response_value") {
+        newResults[key] = ((newResults[key] as number) ?? 0) + answer.value;
+      }
+    }
     setResults(newResults);
 
     // Get translated question and answer text
     const currentQuestionText =
-      getQuizTranslation("domain", locale, `questions.${currentQuestionId}`) ||
+      getQuizTranslation(locale, "domain", `questions.${question.id}`) ||
       question.text;
     const selectedAnswerText =
       getQuizTranslation(
-        "domain",
         locale,
-        `answers.${currentQuestionId}.${answerIndex}`,
+        "domain",
+        `answers.${question.id}.${answerIndex}`,
       ) || answer.text;
 
     // Record the detailed response in history
@@ -101,8 +103,8 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
     setAnsweredQuestions([...answeredQuestions, currentQuestionId]);
 
     // Move to next question or complete quiz
-    if (answer.nextQuestionId) {
-      setCurrentQuestionId(answer.nextQuestionId);
+    if (question.nextQuestionId) {
+      setCurrentQuestionId(question.nextQuestionId);
     } else {
       setQuizState("completed");
       onComplete(newResults, newHistory);
@@ -189,9 +191,9 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
             <Progress value={progress} className="mb-4" />
             <CardTitle className="text-center text-2xl font-bold text-slate-800 md:text-3xl">
               {getQuizTranslation(
-                "domain",
                 locale,
-                `questions.${currentQuestionId}`,
+                "domain",
+                `questions.${currentQuestion.id}`,
               ) || currentQuestion.text}
             </CardTitle>
           </CardHeader>
@@ -224,9 +226,9 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
                         </div>
                         <span className="flex-1">
                           {getQuizTranslation(
-                            "domain",
                             locale,
-                            `answers.${currentQuestionId}.${answerIndex}`,
+                            "domain",
+                            `answers.${currentQuestion.id}.${answerIndex}`,
                           ) || answer.text}
                         </span>
                       </div>
