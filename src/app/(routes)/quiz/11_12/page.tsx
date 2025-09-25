@@ -1,9 +1,10 @@
 "use client";
 
 import { QuizEngine } from "@/app/_components/GeneralQuiz";
-import { domainQuizData } from "@/data/domain-quiz-data";
+import { domain1112QuizData } from "@/data/domain-1112-quiz-data";
 import { createClient } from "@/app/utils/supabase/client";
 import { useRouter } from "next/navigation";
+
 type ResponseHistory = Record<
   string,
   {
@@ -12,7 +13,7 @@ type ResponseHistory = Record<
   }
 >;
 
-export default function DomainQuizPage() {
+export default function Domain1112QuizPage() {
   const supabase = createClient();
   const router = useRouter();
 
@@ -21,7 +22,7 @@ export default function DomainQuizPage() {
     history: ResponseHistory,
   ) => {
     const submissionPayload = {
-      quizType: "9_10",
+      quizType: "11_12",
       responseData: {
         results,
         history,
@@ -33,7 +34,7 @@ export default function DomainQuizPage() {
       .from("user_quiz_responses")
       .insert({
         user_id: data.user?.id,
-        quiz_type: "9_10",
+        quiz_type: "11_12",
         response_data: submissionPayload,
       });
 
@@ -49,8 +50,8 @@ export default function DomainQuizPage() {
 
   return (
     <QuizEngine
-      quizData={domainQuizData}
-      quizType="domain"
+      quizData={domain1112QuizData}
+      quizType="domain-1112"
       onComplete={handleQuizComplete}
     />
   );
