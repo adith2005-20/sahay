@@ -140,7 +140,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-orange-500 to-amber-500">
                       <span className="text-5xl font-medium text-white">
                         {formData.first_name?.[0]?.toUpperCase() ||
                           user.email?.[0]?.toUpperCase() ||
@@ -152,7 +152,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="absolute right-0 bottom-0 rounded-full bg-blue-600 p-2 text-white shadow-lg transition-colors hover:bg-blue-700"
+                  className="absolute right-0 bottom-0 rounded-full bg-orange-600 p-2 text-white shadow-lg transition-colors hover:bg-orange-700"
                   aria-label={t("profile.photo.changePhotoAria")}
                 >
                   <Camera className="h-4 w-4" />
@@ -193,7 +193,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
                   onChange={(e) =>
                     handleInputChange("username", e.target.value)
                   }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   required
                 />
               </div>
@@ -212,7 +212,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
                   onChange={(e) =>
                     handleInputChange("first_name", e.target.value)
                   }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   required
                 />
               </div>
@@ -231,7 +231,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
                   onChange={(e) =>
                     handleInputChange("last_name", e.target.value)
                   }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   required
                 />
               </div>
@@ -267,7 +267,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
                   onChange={(e) =>
                     handleInputChange("college_name", e.target.value)
                   }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 />
               </div>
 
@@ -285,7 +285,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
                   onChange={(e) =>
                     handleInputChange("location", e.target.value)
                   }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 />
               </div>
 
@@ -303,7 +303,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
                   onChange={(e) =>
                     handleInputChange("phone_number", e.target.value)
                   }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 />
               </div>
 
@@ -321,7 +321,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
                   onChange={(e) =>
                     handleInputChange("birthday", e.target.value)
                   }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 />
               </div>
             </div>
@@ -333,7 +333,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
       <div className="flex items-center justify-end gap-x-4 border-t border-gray-900/10 bg-gray-50 px-6 py-4 dark:border-white/10 dark:bg-gray-800/50">
         {message && (
           <div
-            className={`flex items-center gap-2 text-sm ${message.type === "success" ? "text-green-500" : "text-red-500"}`}
+            className={`flex items-center gap-2 text-sm ${message.type === "success" ? "text-orange-500" : "text-red-500"}`}
           >
             {message.type === "success" ? (
               <CheckCircle className="h-5 w-5" />
@@ -350,7 +350,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
             "inline-flex justify-center rounded-md px-6 py-2 text-sm font-semibold text-white shadow-sm focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-none",
             isLoading
               ? "cursor-not-allowed bg-gray-500"
-              : "bg-blue-600 hover:bg-blue-700 focus:ring-blue-500",
+              : "bg-orange-600 hover:bg-orange-700 focus:ring-orange-500",
           )}
         >
           {isLoading

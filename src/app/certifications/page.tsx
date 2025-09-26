@@ -1,5 +1,6 @@
 "use client";
 
+import { createClient } from "@/app/utils/supabase/client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,8 +9,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Calendar, AlertCircle, CheckCircle2 } from "lucide-react";
 import { useTranslation } from "@/contexts/LanguageContext";
 
+// FIX 1: Removed 'user' from the form data interface.
+// The user ID is fetched from the session, not entered in the form.
 interface CertificationFormData {
-  user: string;
   certificate_number: string;
   main_skill: string;
   secondary_skill: string;
@@ -41,7 +43,6 @@ interface ApiResponse {
 export default function CertificationPage() {
   const { t } = useTranslation();
   const [formData, setFormData] = useState<CertificationFormData>({
-    user: "",
     certificate_number: "",
     main_skill: "",
     secondary_skill: "",
@@ -79,10 +80,20 @@ export default function CertificationPage() {
         throw new Error(t("certifications.messages.pleaseSelectFile"));
       }
 
-      const fileUrl = `placeholder/path/${certificationFile.name}`;
+      const supabase = createClient();
+      const { data, error: sessionError } = await supabase.auth.getSession();
 
+      if (sessionError || !data.session) {
+        throw new Error("Could not get user session. Please log in again.");
+      }
+
+      const userId = data.session.user.id;
+      const fileUrl = `placeholder/path/${certificationFile.name}`; // Replace with actual file upload logic
+
+      // FIX 2: Correctly added userId to the submission object with a 'user' key.
       const submissionData = {
         ...formData,
+        user: userId,
         certification_file: fileUrl,
       };
 
@@ -104,11 +115,11 @@ export default function CertificationPage() {
 
       setSubmissionStatus({
         type: "success",
-        message: t("certifications.messages.submitSuccess"),
+        message: "Certification added successfully!",
       });
 
+      // Reset form
       setFormData({
-        user: "",
         certificate_number: "",
         main_skill: "",
         secondary_skill: "",
@@ -121,22 +132,20 @@ export default function CertificationPage() {
       ) as HTMLInputElement;
       if (fileInput) fileInput.value = "";
     } catch (error: unknown) {
-      // Use 'unknown' instead of 'any'
       console.error("Submission error:", error);
-      // Use a type guard to safely access the error message
       const errorMessage =
         error instanceof Error
           ? error.message
-          : t("certifications.messages.submitError");
+          : "An unexpected error occurred.";
       setSubmissionStatus({ type: "error", message: errorMessage });
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // FIX 3: Updated validation logic to remove the check for 'user'.
   const isFormValid = () => {
     return (
-      formData.user.trim() !== "" &&
       formData.main_skill.trim() !== "" &&
       formData.certification_name.trim() !== "" &&
       formData.issued_at !== "" &&
@@ -155,7 +164,7 @@ export default function CertificationPage() {
 
   return (
     <div className="container mx-auto max-w-2xl px-4 py-8">
-      <Card>
+      <Card className="relative overflow-hidden rounded-2xl border border-white/20 bg-white/10 dark:bg-black/20 backdrop-blur-2xl ring-1 ring-fuchsia-300/10 shadow-xl">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-bold">
             {t("certifications.addCertification")}
@@ -163,22 +172,6 @@ export default function CertificationPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="user" className="text-sm font-medium">
-                {t("certifications.form.userId")}{" "}
-                {t("certifications.form.required")}
-              </Label>
-              <Input
-                id="user"
-                type="text"
-                value={formData.user}
-                onChange={(e) => handleInputChange("user", e.target.value)}
-                placeholder={t("certifications.form.userIdPlaceholder")}
-                required
-                className="w-full"
-              />
-            </div>
-
             <div className="space-y-2">
               <Label
                 htmlFor="certification_name"
@@ -286,7 +279,7 @@ export default function CertificationPage() {
                 id="certification_file"
                 type="file"
                 onChange={handleFileChange}
-                className="w-full file:mr-4 file:rounded-md file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100"
+                className="w-full file:mr-4 file:rounded-md file:border-0 file:bg-orange-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-orange-700 hover:file:bg-orange-100 dark:file:bg-orange-900/30 dark:file:text-orange-300 dark:hover:file:bg-orange-900/50"
               />
               <p className="text-muted-foreground text-xs">
                 {t("certifications.form.fileFormats")}
@@ -295,7 +288,7 @@ export default function CertificationPage() {
 
             {submissionStatus && (
               <div
-                className={`flex items-center gap-2 rounded-md p-3 text-sm ${submissionStatus.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
+                className={`flex items-center gap-2 rounded-md p-3 text-sm ${submissionStatus.type === "success" ? "bg-orange-100 text-orange-800" : "bg-red-100 text-red-800"}`}
               >
                 {submissionStatus.type === "success" ? (
                   <CheckCircle2 className="h-4 w-4" />
@@ -307,19 +300,20 @@ export default function CertificationPage() {
             )}
 
             <div className="pt-4">
+              {/* FIX 4: Added the disabled prop to connect the button's state to the form's validity. */}
               <Button
                 type="submit"
                 className="w-full"
-                disabled={!isFormValid() || isSubmitting}
                 size="lg"
+                disabled={!isFormValid() || isSubmitting}
               >
                 {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {t("certifications.messages.submitting")}
+                    Submitting...
                   </>
                 ) : (
-                  t("certifications.messages.submitCertification")
+                  "Submit Certification"
                 )}
               </Button>
             </div>

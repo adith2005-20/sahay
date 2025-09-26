@@ -17,13 +17,19 @@ import {
   type Answer,
   type Question,
 } from "@/data/domain-quiz-data";
+import {
+  type Domain1112QuizData,
+  type Answer as Answer1112,
+  type Question as Question1112,
+} from "@/data/domain-1112-quiz-data";
 import { merge } from "lodash";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { getQuizTranslation } from "@/lib/quiz-translations";
 
 // Define the types for our component's props and state
 interface QuizEngineProps {
-  quizData: DomainQuizData;
+  quizData: DomainQuizData | Domain1112QuizData;
+  quizType: "domain" | "domain-1112";
   onComplete: (
     results: Record<string, unknown>,
     history: ResponseHistory,
@@ -39,7 +45,11 @@ type ResponseHistory = Record<
   }
 >;
 
-export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
+export function QuizEngine({
+  quizData,
+  quizType,
+  onComplete,
+}: QuizEngineProps) {
   const { t, locale } = useTranslation();
   const [quizState, setQuizState] = useState<
     "intro" | "in_progress" | "completed"
@@ -78,14 +88,19 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
 
     // Get translated question and answer text
     const currentQuestionText =
-      getQuizTranslation("domain", locale, `questions.${currentQuestionId}`) ||
+      getQuizTranslation(quizType, locale, `questions.${currentQuestionId}`) ||
       question.text;
+
+    // Handle different translation patterns for different quiz types
     const selectedAnswerText =
-      getQuizTranslation(
-        "domain",
-        locale,
-        `answers.${currentQuestionId}.${answerIndex}`,
-      ) || answer.text;
+      quizType === "domain-1112"
+        ? getQuizTranslation(quizType, locale, `answers.${answer.text}`) ||
+          answer.text
+        : getQuizTranslation(
+            quizType,
+            locale,
+            `answers.${currentQuestionId}.${answerIndex}`,
+          ) || answer.text;
 
     // Record the detailed response in history
     const newHistory: ResponseHistory = {
@@ -128,38 +143,38 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
             <BookOpen className="text-primary h-12 w-12" />
           </div>
           <CardTitle className="mt-4 text-3xl font-bold">
-            {t("quiz.domain.title")}
+            {t(`quiz.${quizType}.title`)}
           </CardTitle>
           <CardDescription className="text-lg">
-            {t("quiz.domain.description")}
+            {t(`quiz.${quizType}.description`)}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6 p-6">
           <div className="grid grid-cols-2 gap-4 text-left">
             <div className="rounded-lg border p-4">
               <p className="text-muted-foreground text-sm font-medium">
-                {t("quiz.domain.questions")}
+                {t(`quiz.${quizType}.questions`)}
               </p>
               <p className="text-2xl font-bold">{totalQuestions}</p>
             </div>
             <div className="rounded-lg border p-4">
               <p className="text-muted-foreground text-sm font-medium">
-                {t("quiz.domain.estimatedTime")}
+                {t(`quiz.${quizType}.estimatedTime`)}
               </p>
               <p className="text-2xl font-bold">
-                ~{estimatedTime} {t("quiz.domain.timeUnit")}
+                ~{estimatedTime} {t(`quiz.${quizType}.timeUnit`)}
               </p>
             </div>
           </div>
           <div className="space-y-3 rounded-lg border bg-slate-50 p-4 text-left">
             <h3 className="flex items-center gap-2 font-semibold">
               <Lightbulb className="h-5 w-5 text-yellow-500" />
-              {t("quiz.domain.tips.title")}
+              {t(`quiz.${quizType}.tips.title`)}
             </h3>
             <ul className="text-muted-foreground list-inside list-disc space-y-1 text-sm">
-              <li>{t("quiz.domain.tips.honest")}</li>
-              <li>{t("quiz.domain.tips.instinct")}</li>
-              <li>{t("quiz.domain.tips.noWrong")}</li>
+              <li>{t(`quiz.${quizType}.tips.honest`)}</li>
+              <li>{t(`quiz.${quizType}.tips.instinct`)}</li>
+              <li>{t(`quiz.${quizType}.tips.noWrong`)}</li>
             </ul>
           </div>
           <Button
@@ -167,7 +182,7 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
             className="w-full text-lg"
             onClick={() => setQuizState("in_progress")}
           >
-            {t("quiz.domain.startButton")}
+            {t(`quiz.${quizType}.startButton`)}
           </Button>
         </CardContent>
       </Card>
@@ -188,11 +203,15 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
           <CardHeader className="p-6">
             <Progress value={progress} className="mb-4" />
             <CardTitle className="text-center text-2xl font-bold text-slate-800 md:text-3xl">
-              {getQuizTranslation(
-                "domain",
-                locale,
-                `questions.${currentQuestionId}`,
-              ) || currentQuestion.text}
+              {(currentQuestionId
+                ? quizType === "domain-1112"
+                  ? getQuizTranslation(
+                      quizType,
+                      locale,
+                      `questions.${currentQuestionId}`,
+                    )
+                  : getQuizTranslation(quizType, locale, currentQuestionId)
+                : null) || currentQuestion.text}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
@@ -223,11 +242,17 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
                           {String.fromCharCode(65 + answerIndex)}
                         </div>
                         <span className="flex-1">
-                          {getQuizTranslation(
-                            "domain",
-                            locale,
-                            `answers.${currentQuestionId}.${answerIndex}`,
-                          ) || answer.text}
+                          {quizType === "domain-1112"
+                            ? getQuizTranslation(
+                                quizType,
+                                locale,
+                                `answers.${answer.text}`,
+                              ) || answer.text
+                            : getQuizTranslation(
+                                quizType,
+                                locale,
+                                `answers.${answer.text}`,
+                              ) || answer.text}
                         </span>
                       </div>
                     </Button>
@@ -251,10 +276,10 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
     >
       <Card className="text-center shadow-lg">
         <CardHeader className="p-6">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-            <CheckCircle className="h-12 w-12 text-green-600" />
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-orange-100">
+            <CheckCircle className="h-12 w-12 text-orange-600" />
           </div>
-          <CardTitle className="mt-4 text-3xl font-bold text-green-800">
+          <CardTitle className="mt-4 text-3xl font-bold text-orange-800">
             {t("quiz.completed.title")}
           </CardTitle>
           <CardDescription className="text-lg">
@@ -262,11 +287,11 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 p-6">
-          <div className="rounded-lg border bg-green-50 p-4">
+          <div className="rounded-lg border bg-orange-50 p-4">
             <p className="text-muted-foreground text-sm">
               {t("quiz.completed.questionsAnswered")}
             </p>
-            <p className="text-2xl font-bold text-green-800">
+            <p className="text-2xl font-bold text-orange-800">
               {answeredQuestions.length}
             </p>
           </div>
