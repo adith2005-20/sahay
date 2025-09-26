@@ -21,6 +21,13 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@langchain/core": "^0.3.77",
+    "@langchain/google-genai": "^0.2.18",
+    "@langchain/langgraph": "^0.4.9",
+    "@langchain/tavily": "^0.1.5",
+    "@llm-ui/code": "^0.13.3",
+    "@llm-ui/markdown": "^0.13.3",
+    "@llm-ui/react": "^0.13.3",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-progress": "^1.1.7",
@@ -36,6 +43,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.41.0",
+    "html-react-parser": "^5.2.6",
     "lodash": "^4.17.21",
     "lucide-react": "^0.544.0",
     "motion": "^12.23.18",
@@ -44,9 +52,14 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.8",
+    "react-markdown": "^10.1.0",
+    "react-spinners": "^0.17.0",
+    "remark-gfm": "^4.0.1",
     "server-only": "^0.0.1",
+    "shiki": "^3.13.0",
     "superjson": "^2.2.1",
     "tailwind-merge": "^3.3.1",
+    "uuid": "^13.0.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
