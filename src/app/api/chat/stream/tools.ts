@@ -30,7 +30,7 @@ export const searchJobsTool = new DynamicStructuredTool({
       },
     ];
 
-    return JSON.stringify(jobs.filter(job => 
+    return JSON.stringify(jobs.filter(job =>
       (!title || job.title.toLowerCase().includes(title.toLowerCase())) &&
       (!skills || skills.every(skill => job.skills.includes(skill))) &&
       (!experience || job.experience <= experience) &&
@@ -60,7 +60,7 @@ export const collegeGetterTool = new DynamicStructuredTool({
 "Technical & IT Skills"])
   }),
   func: async ({location, domain}) => {
-    const response = await fetch("http://172.16.45.116:8000/filter-colleges", {
+    const response = await fetch("http://localhost:8001/filter-colleges", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -43,7 +43,6 @@ export default function RootLayout({
             <TRPCReactProvider>
               <Header />
               <div className="pt-28 pb-16">{children}</div>
-              <Footer />
             </TRPCReactProvider>
           </LanguageProvider>
         </Iridescence>

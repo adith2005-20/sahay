@@ -37,9 +37,9 @@ Provide domain and location-aware financial insights including regional variatio
 
 ## PROCESS:
 1. **Smart extraction** - understand context and related fields from user query
-2. **Minimal clarification** - ask only what's essential for tool execution  
+2. **Minimal clarification** - ask only what's essential for tool execution
 3. **Multi-tool approach** - use relevant tools, supplement with web search if needed
-4. **Human-friendly tables** with practical insights and honest pros/cons
+4. **Provide Data in tables** - wherever data is in a comparitive form, provide as a table
 5. **Natural recommendations** - conversational tone with clear next steps
 
 ## RESPONSE STYLE:
@@ -93,8 +93,8 @@ export async function POST(req: NextRequest) {
     const encoder = new TextEncoder();
 
     // Convert messages to LangChain format
-    const formattedMessages = messages.map((msg: any) => 
-      msg.role === "user" 
+    const formattedMessages = messages.map((msg: any) =>
+      msg.role === "user"
         ? new HumanMessage(msg.content)
         : new AIMessage(msg.content)
     );

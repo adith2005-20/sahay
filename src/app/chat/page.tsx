@@ -25,7 +25,7 @@ type Message = {
 
 const MarkdownComponent = ({ content }: { content: string }) => {
   return (
-    <ReactMarkdown 
+    <ReactMarkdown
       remarkPlugins={[remarkGfm]}
     >
       {content}
@@ -156,10 +156,10 @@ export default function ChatPage() {
 
   return (
     <div className="fixed inset-0 top-14 flex flex-col bg-gradient-to-b from-slate-50 to-white">
-        
+
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-4 md:px-6 pb-[100px]">
+        <div className="flex-1 overflow-y-auto px-4 pt-24 md:px-6 ">
           <div className="space-y-4 max-w-3xl mx-auto pt-6">
             {messages.map((message) => (
               <div
@@ -184,7 +184,7 @@ export default function ChatPage() {
                 </div>
               </div>
             ))}
-            <div ref={messagesEndRef} />
+            <div ref={messagesEndRef} className="mb-24"/>
           </div>
         </div>
 
@@ -205,8 +205,8 @@ export default function ChatPage() {
                   }
                 }}
               />
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={isLoading}
                 className="absolute right-2 bottom-2 h-8 w-8 rounded-full p-0 border-muted-foreground shadow-md"
                 variant="ghost"
