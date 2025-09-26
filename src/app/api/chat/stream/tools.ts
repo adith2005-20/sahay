@@ -81,6 +81,33 @@ export const currentTimeTool = new DynamicStructuredTool({
   },
 });
 
+export const schemesListTool = new DynamicStructuredTool({
+  name: "schemes-list",
+  description: "Get a list of government schemes reg. education and upskilling",
+  schema: z.object({
+    level: z
+      .enum(["State", "Central"])
+      .optional()
+      .describe(
+        "Whether the schemes is provided by a state or the central government",
+      ),
+    category: z.enum([
+      "Rural & Environment", "Agriculture", "Social welfare & Empowerment", "Education & Learning", "Business & Entrepreneurship", "Women and Child", "Health & Wellness", "Education & Learning", "Skills & Employment",
+    ]).optional().describe('Category of the scheme'),
+  }),
+  func: async ({level, category}) => {
+    const response = await fetch("http://localhost:8002/filter-schemes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ level, category }),
+    });
+    const data = await response.json();
+    return JSON.stringify(data);
+  },
+});
+
 export const tavilySearchTool = new TavilySearch({
   maxResults: 5
 })
@@ -88,5 +115,6 @@ export const tavilySearchTool = new TavilySearch({
 export const tools = [
   currentTimeTool,
   collegeGetterTool,
-  tavilySearchTool
+  tavilySearchTool,
+  schemesListTool
 ];
