@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
-import { Search, MapPin, Users, X } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Search, MapPin, Users, X, Loader2, BrainCircuit } from 'lucide-react';
+import { useTranslation } from '@/contexts/LanguageContext';
 
 // Updated Job interface to match the detailed data from the JSearch API.
 interface Job {
@@ -13,7 +14,7 @@ interface Job {
   job_state: string | null;
   job_country: string | null;
   job_apply_link: string;
-  job_posted_at_timestamp: number; 
+  job_posted_at_timestamp: number;
   job_employment_type: string;
 }
 
@@ -39,7 +40,9 @@ const JobsPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [initialLoad, setInitialLoad] = useState(true);
-  
+  const [shouldSearchAfterTagsUpdate, setShouldSearchAfterTagsUpdate] = useState(false);
+  const [isFetchingSkills, setIsFetchingSkills] = useState(false);
+
   const addTag = (tag: Tag) => {
     setSearchTags([...searchTags, tag]);
     setSearchInput("");
@@ -110,7 +113,34 @@ const JobsPage = () => {
       setLoading(false);
     }
   };
-  
+
+  const handleFetchSkills = async () => {
+    setIsFetchingSkills(true);
+    try {
+      // This would typically fetch skills from the user's profile/skill wallet
+      // For now, we'll add some dummy skills as tags
+      const dummySkills = [
+        { id: 'skill-1', name: 'JavaScript', category: 'skill' as const },
+        { id: 'skill-2', name: 'React', category: 'skill' as const },
+        { id: 'skill-3', name: 'Node.js', category: 'skill' as const },
+      ];
+
+      // Add skills as tags (avoiding duplicates)
+      const newSkills = dummySkills.filter(skill =>
+        !searchTags.some(tag => tag.name.toLowerCase() === skill.name.toLowerCase())
+      );
+
+      if (newSkills.length > 0) {
+        setSearchTags([...searchTags, ...newSkills]);
+        setShouldSearchAfterTagsUpdate(true);
+      }
+    } catch (err) {
+      console.error('Failed to fetch skills:', err);
+    } finally {
+      setIsFetchingSkills(false);
+    }
+  };
+
   // --- useEffect to trigger search after skills are added ---
   useEffect(() => {
     if (shouldSearchAfterTagsUpdate) {
@@ -174,12 +204,12 @@ const JobsPage = () => {
                   />
                 </div>
                 <button onClick={handleSearch} className="px-6 py-3 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 transition-colors self-stretch">
-                  Search
+                  {t("jobs.searchButton")}
                 </button>
               </div>
             </div>
           </div>
-          
+
           <div className="mt-4">
             <button
               onClick={handleFetchSkills}
@@ -189,12 +219,12 @@ const JobsPage = () => {
               {isFetchingSkills ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Fetching Skills...
+                  {t("jobs.fetchingSkills")}
                 </>
               ) : (
                 <>
                   <BrainCircuit className="mr-2 h-4 w-4" />
-                  Get Your Skills From Skill Wallet
+                  {t("jobs.skillWalletButton")}
                 </>
               )}
             </button>
@@ -204,7 +234,7 @@ const JobsPage = () => {
 
         <div className="mt-12">
           {loading && (
-            <div className="text-center text-gray-600">Loading jobs...</div>
+            <div className="text-center text-gray-600">{t("jobs.loadingJobs")}</div>
           )}
           {error && (
             <div className="rounded-lg bg-red-100 p-4 text-center text-red-500">
@@ -246,11 +276,11 @@ const JobsPage = () => {
                                 {job.employer_name}
                               </p>
                             </div>
-                            <span className="text-xs text-gray-500 whitespace-nowrap pt-1">{job.job_posted_at}</span>
+                            <span className="text-xs text-gray-500 whitespace-nowrap pt-1">{new Date(job.job_posted_at_timestamp * 1000).toLocaleDateString()}</span>
                           </div>
                           <div className="mt-2 flex items-center text-sm text-gray-500">
                             <MapPin className="mr-2 h-4 w-4 shrink-0" />
-                            <span>{`${job.job_city ?? ""}${job.job_city && (job.job_state ?? job.job_country) ? ", " : ""}${job.job_state ?? ""}${job.job_state && job.job_country ? ", " : ""}${job.job_country ?? "Not specified"}`}</span>
+                            <span>{`${job.job_city ?? ""}${job.job_city && (job.job_state ?? job.job_country) ? ", " : ""}${job.job_state ?? ""}${job.job_state && job.job_country ? ", " : ""}${job.job_country ?? t("jobs.notSpecified")}`}</span>
                           </div>
                           <div className="mt-4">
                             <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 capitalize">
@@ -266,8 +296,8 @@ const JobsPage = () => {
                 </div>
               ) : (
                 <div className="text-center text-gray-500 py-10">
-                  <h3 className="text-xl font-semibold">No jobs found</h3>
-                  <p>Try adjusting your search tags to find more results.</p>
+                  <h3 className="text-xl font-semibold">{t("jobs.noJobsFound")}</h3>
+                  <p>{t("jobs.tryAdjusting")}</p>
                 </div>
               )}
             </div>

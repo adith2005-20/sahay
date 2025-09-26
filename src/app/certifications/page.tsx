@@ -1,12 +1,13 @@
 "use client";
 
-import { createClient } from '@/app/utils/supabase/client.ts'
+import { createClient } from '@/app/utils/supabase/client'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Loader2, Calendar, AlertCircle, CheckCircle2 } from 'lucide-react'
+import { useTranslation } from '@/contexts/LanguageContext'
 
 // FIX 1: Removed 'user' from the form data interface.
 // The user ID is fetched from the session, not entered in the form.
@@ -49,7 +50,7 @@ export default function CertificationPage() {
     certification_name: '',
     issued_at: '',
   })
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submissionStatus, setSubmissionStatus] = useState<{
     type: "success" | "error";
@@ -114,7 +115,7 @@ export default function CertificationPage() {
       }
 
       setSubmissionStatus({ type: 'success', message: 'Certification added successfully!' })
-      
+
       // Reset form
       setFormData({
         certificate_number: '',
@@ -126,7 +127,7 @@ export default function CertificationPage() {
       setCertificationFile(null)
       const fileInput = document.getElementById('certification_file') as HTMLInputElement;
       if (fileInput) fileInput.value = '';
-      
+
     } catch (error: unknown) {
       console.error('Submission error:', error)
       const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.';
@@ -295,10 +296,10 @@ export default function CertificationPage() {
 
             <div className="pt-4">
               {/* FIX 4: Added the disabled prop to connect the button's state to the form's validity. */}
-              <Button 
-                type="submit" 
-                className="w-full" 
-                size="lg" 
+              <Button
+                type="submit"
+                className="w-full"
+                size="lg"
                 disabled={!isFormValid() || isSubmitting}
               >
                 {isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" />Submitting...</>) : ('Submit Certification')}
