@@ -38,8 +38,7 @@ export async function POST(request: Request) {
     
     const body = await request.json() as CertificationRequestBody;
     
-    // WARNING: INSECURE - This accepts a user ID directly from the client.
-    // This is for MVP/Hackathon purposes ONLY. 
+   
     const {
       user,
       certificate_number,

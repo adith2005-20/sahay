@@ -6,7 +6,8 @@ import { Martel_Sans } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Header from "./_components/Header";
-
+import Iridescence from '@/components/Iridescence'
+import Footer from "./_components/Footer";
 export const metadata: Metadata = {
   title: "Sahay",
   description: "Built for Smart India Hackathon '25",
@@ -37,12 +38,15 @@ export default function RootLayout({
         />
       </head>
       <body className={`${martelSans.className} antialiased`}>
-        <LanguageProvider>
-          <TRPCReactProvider>
-            <Header />
-            {children}
-          </TRPCReactProvider>
-        </LanguageProvider>
+        <Iridescence className='w-full min-h-svh'>
+          <LanguageProvider>
+            <TRPCReactProvider>
+              <Header />
+              <div className="pt-28 pb-16">{children}</div>
+              <Footer />
+            </TRPCReactProvider>
+          </LanguageProvider>
+        </Iridescence>
       </body>
     </html>
   );

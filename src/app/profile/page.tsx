@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "../utils/supabase/client";
 import { ProfileForm } from "@/components/profile-form";
 import { useTranslation } from "@/contexts/LanguageContext";
+import SpotlightCard from "@/components/SpotlightCard";
 import type { User } from "@supabase/supabase-js";
 
 type Profile = {
@@ -66,7 +67,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-svh w-full items-center justify-center bg-gray-50 py-12 dark:bg-gray-900">
+      <div className="flex min-h-svh w-full items-center justify-center py-12">
         <div className="text-lg text-gray-600 dark:text-gray-400">
           Loading...
         </div>
@@ -79,7 +80,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-svh w-full bg-gray-50 py-12 dark:bg-gray-900">
+    <div className="min-h-svh w-full py-12">
       <div className="mx-auto w-full max-w-4xl px-4 sm:px-6">
         {/* Header */}
         <div className="mb-10 text-center">
@@ -91,10 +92,10 @@ export default function ProfilePage() {
           </p>
         </div>
 
-        {/* Profile Form Card */}
-        <div className="overflow-hidden rounded-2xl bg-white shadow-xl dark:bg-gray-800">
+        {/* Profile Form Card with orange/rusty spotlight tint */}
+        <SpotlightCard variant="rusty" className="p-2 sm:p-4">
           <ProfileForm user={user} profile={profile} />
-        </div>
+        </SpotlightCard>
       </div>
     </div>
   );
