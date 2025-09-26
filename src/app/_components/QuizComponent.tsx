@@ -261,8 +261,8 @@ export function RiasecQuiz({ quizData, onComplete }: RiasecQuizProps) {
       >
         <Card className="text-center shadow-lg">
           <CardHeader className="p-6">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-              <CheckCircle className="h-12 w-12 text-green-600" />
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-orange-100">
+              <CheckCircle className="h-12 w-12 text-orange-600" />
             </div>
             <CardTitle className="mt-4 text-3xl font-bold">
               {t("quiz.riasec.completed.title")}
@@ -278,7 +278,7 @@ export function RiasecQuiz({ quizData, onComplete }: RiasecQuizProps) {
               </span>
               <div className="flex items-center gap-3">
                 <Trophy className="h-10 w-10 text-yellow-500" />
-                <p className="text-primary text-2xl font-bold tracking-widest">
+                <p className="text-orange-700 dark:text-orange-300 text-2xl font-bold tracking-widest">
                   {topThree
                     .map((code) => code.charAt(0).toUpperCase())
                     .join(" - ")}

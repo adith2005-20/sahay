@@ -3,6 +3,8 @@
 import React, { useState, useRef } from "react";
 import { Search, MapPin, Users, X } from "lucide-react";
 import { useTranslation } from "@/contexts/LanguageContext";
+import SpotlightCard from "@/components/SpotlightCard";
+import ScrollFade from "@/components/ScrollFade";
 
 // Updated Job interface to match the detailed data from the JSearch API.
 interface Job {
@@ -120,8 +122,8 @@ const JobsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="min-h-svh">
+      <main className="mx-auto max-w-7xl px-4 pt-8 pb-28 sm:px-6 lg:px-8">
         <div className="mb-8 text-center">
           <h2 className="mb-4 text-4xl font-bold text-gray-900">
             {t("jobs.title")}
@@ -130,18 +132,18 @@ const JobsPage = () => {
 
           <div className="relative mx-auto max-w-2xl">
             <div className="relative">
-              <div className="flex items-center rounded-lg border border-gray-300 bg-white shadow-sm focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500">
-                <Search className="ml-3 h-5 w-5 text-gray-400" />
+              <div className="flex items-center rounded-2xl border border-orange-200/30 bg-gradient-to-r from-orange-50/20 via-amber-50/15 to-yellow-50/20 dark:from-orange-900/20 dark:via-amber-900/15 dark:to-yellow-900/20 backdrop-blur-2xl ring-1 ring-orange-300/20 shadow-lg focus-within:ring-2 focus-within:ring-orange-500 focus-within:border-orange-300/50">
+                <Search className="ml-3 h-5 w-5 text-orange-600/80 dark:text-orange-400/80" />
                 <div className="flex flex-1 flex-wrap items-center gap-2 p-2">
                   {searchTags.map((tag) => (
                     <span
                       key={tag.id}
-                      className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800"
+                      className="inline-flex items-center rounded-full bg-orange-100 px-3 py-1 text-sm font-medium text-orange-800 dark:bg-orange-900/50 dark:text-orange-200"
                     >
                       {tag.name}
                       <button
                         onClick={() => removeTag(tag.id)}
-                        className="ml-2 inline-flex h-4 w-4 items-center justify-center rounded-full text-blue-600 hover:bg-blue-200 hover:text-blue-800"
+                        className="ml-2 inline-flex h-4 w-4 items-center justify-center rounded-full text-orange-600 hover:bg-orange-200 hover:text-orange-800 dark:text-orange-400 dark:hover:bg-orange-800"
                       >
                         <X className="h-3 w-3" />
                       </button>
@@ -155,7 +157,7 @@ const JobsPage = () => {
                         ? t("jobs.searchPlaceholder")
                         : t("jobs.addMore")
                     }
-                    className="min-w-0 flex-1 border-none bg-transparent px-2 py-3 focus:ring-0 focus:outline-none"
+                    className="min-w-0 flex-1 border-none bg-transparent px-2 py-3 text-neutral-900 placeholder:text-neutral-500 dark:text-neutral-100 dark:placeholder:text-neutral-400 focus:ring-0 focus:outline-none"
                     value={searchInput}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
@@ -163,7 +165,7 @@ const JobsPage = () => {
                 </div>
                 <button
                   onClick={handleSearch}
-                  className="self-stretch rounded-r-lg bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
+                  className="self-stretch rounded-r-2xl bg-orange-600 px-6 py-3 text-white transition-colors hover:bg-orange-700 shadow-lg hover:shadow-orange-500/25"
                 >
                   {t("jobs.searchButton")}
                 </button>
@@ -186,16 +188,21 @@ const JobsPage = () => {
           {!loading && !error && !initialLoad && (
             <div>
               {jobs.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {jobs.map((job) => (
-                    <a
-                      key={job.job_id}
-                      href={job.job_apply_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block rounded-lg border border-gray-200 bg-white p-6 transition-shadow duration-300 hover:shadow-lg"
-                    >
-                      <div className="flex items-start space-x-4">
+                <ScrollFade maxHeight="65vh">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {jobs.map((job, index) => (
+                      <SpotlightCard 
+                        key={job.job_id} 
+                        variant={index % 2 === 0 ? "orange" : "rusty"}
+                        className="p-6 transition-all duration-300 hover:scale-[1.02]"
+                      >
+                        <a
+                          href={job.job_apply_link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block h-full"
+                        >
+                        <div className="flex items-start space-x-4">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={
@@ -212,14 +219,14 @@ const JobsPage = () => {
                         <div className="flex-1">
                           <div className="flex items-start justify-between">
                             <div>
-                              <h3 className="line-clamp-2 text-lg font-bold text-gray-800">
+                              <h3 className="line-clamp-2 text-lg font-bold text-neutral-900 dark:text-neutral-100">
                                 {job.job_title}
                               </h3>
-                              <p className="text-gray-600">
+                              <p className="text-neutral-700 dark:text-neutral-300">
                                 {job.employer_name}
                               </p>
                             </div>
-                            <span className="pt-1 text-xs whitespace-nowrap text-gray-500">
+                            <span className="pt-1 text-xs whitespace-nowrap text-neutral-500 dark:text-neutral-400">
                               {job.job_posted_at}
                             </span>
                           </div>
@@ -228,7 +235,7 @@ const JobsPage = () => {
                             <span>{`${job.job_city ?? ""}${job.job_city && (job.job_state ?? job.job_country) ? ", " : ""}${job.job_state ?? ""}${job.job_state && job.job_country ? ", " : ""}${job.job_country ?? "Not specified"}`}</span>
                           </div>
                           <div className="mt-4">
-                            <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 capitalize">
+                            <span className="inline-flex items-center rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-medium text-orange-800 capitalize dark:bg-orange-900/50 dark:text-orange-200">
                               {job.job_employment_type
                                 ?.toLowerCase()
                                 .replace("_", " ")}
@@ -236,9 +243,11 @@ const JobsPage = () => {
                           </div>
                         </div>
                       </div>
-                    </a>
+                      </a>
+                    </SpotlightCard>
                   ))}
-                </div>
+                  </div>
+                </ScrollFade>
               ) : (
                 <div className="text-center text-gray-500">
                   <h3 className="text-xl font-semibold">No jobs found</h3>

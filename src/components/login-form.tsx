@@ -71,7 +71,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
-      <Card>
+      <Card className="relative overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-fuchsia-300/10 via-white/10 to-white/10 dark:from-fuchsia-400/10 backdrop-blur-2xl ring-1 ring-white/10 shadow-xl">
+        {/* Lavender tint overlay (non-blocking) */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-fuchsia-300/10 via-transparent to-transparent dark:from-fuchsia-400/10" />
         <CardHeader>
           <CardTitle className="text-2xl">{t('auth.login.title')}</CardTitle>
           <CardDescription>{t('auth.login.subtitle')}</CardDescription>
