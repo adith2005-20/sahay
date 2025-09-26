@@ -264,8 +264,8 @@ const JobsPage = () => {
                 <ScrollFade maxHeight="65vh">
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {jobs.map((job, index) => (
-                      <SpotlightCard 
-                        key={job.job_id} 
+                      <SpotlightCard
+                        key={job.job_id}
                         variant={index % 2 === 0 ? "orange" : "rusty"}
                         className="p-6 transition-all duration-300 hover:scale-[1.02]"
                       >
@@ -299,9 +299,9 @@ const JobsPage = () => {
                                 {job.employer_name}
                               </p>
                             </div>
-                            <span className="pt-1 text-xs whitespace-nowrap text-neutral-500 dark:text-neutral-400">
+                            {/* <span className="pt-1 text-xs whitespace-nowrap text-neutral-500 dark:text-neutral-400">
                               {job.job_posted_at}
-                            </span>
+                            </span> */}
                           </div>
                           <div className="mt-2 flex items-center text-sm text-gray-500">
                             <MapPin className="mr-2 h-4 w-4 shrink-0" />

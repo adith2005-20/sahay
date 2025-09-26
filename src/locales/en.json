@@ -6,7 +6,8 @@
       "profile": "Profile",
       "jobs": "Jobs",
       "certifications": "Certifications",
-      "quiz": "Quiz"
+      "quiz": "Quiz",
+      "chat": "Chat"
     }
   },
   "button": {
