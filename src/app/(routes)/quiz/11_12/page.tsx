@@ -1,8 +1,8 @@
 "use client";
 
-import { QuizEngine } from "@/components/QuizEngine";
+import { QuizEngine } from "@/app/_components/GeneralQuiz";
 import { domain1112QuizData } from "@/data/domain-1112-quiz-data";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/app/utils/supabase/client";
 import { useRouter } from "next/navigation";
 
 type ResponseHistory = Record<
@@ -31,9 +31,9 @@ export default function Domain1112QuizPage() {
 
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) {
-        console.error("User not found, redirecting to login.");
-        router.push('/login');
-        return;
+      console.error("User not found, redirecting to login.");
+      router.push("/login");
+      return;
     }
 
     const { error: insertError } = await supabase
@@ -45,9 +45,9 @@ export default function Domain1112QuizPage() {
       });
 
     if (insertError) {
-        console.error("Failed to save quiz response:", insertError.message);
-        // Optionally, show an error message to the user
-        return;
+      console.error("Failed to save quiz response:", insertError.message);
+      // Optionally, show an error message to the user
+      return;
     }
 
     // Redirect to the dashboard after a short delay to show the completion screen.
@@ -64,4 +64,3 @@ export default function Domain1112QuizPage() {
     />
   );
 }
-

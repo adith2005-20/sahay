@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
-import { Search, MapPin, Users, X, Loader2, BrainCircuit } from 'lucide-react';
-import { useTranslation } from '@/contexts/LanguageContext';
+import React, { useState, useRef, useEffect } from "react";
+import { Search, MapPin, Users, X, Loader2, BrainCircuit } from "lucide-react";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 // Updated Job interface to match the detailed data from the JSearch API.
 interface Job {
@@ -40,7 +40,8 @@ const JobsPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [initialLoad, setInitialLoad] = useState(true);
-  const [shouldSearchAfterTagsUpdate, setShouldSearchAfterTagsUpdate] = useState(false);
+  const [shouldSearchAfterTagsUpdate, setShouldSearchAfterTagsUpdate] =
+    useState(false);
   const [isFetchingSkills, setIsFetchingSkills] = useState(false);
 
   const addTag = (tag: Tag) => {
@@ -63,7 +64,7 @@ const JobsPage = () => {
       const newTag: Tag = {
         id: `user-${Date.now()}`,
         name: searchInput.trim(),
-        category: 'skill', // Default category for user-entered tags
+        category: "skill", // Default category for user-entered tags
       };
       if (
         !searchTags.some(
@@ -72,7 +73,7 @@ const JobsPage = () => {
       ) {
         addTag(newTag);
       } else {
-        setSearchInput(''); // Clear input even if it's a duplicate
+        setSearchInput(""); // Clear input even if it's a duplicate
       }
     }
   };
@@ -88,8 +89,11 @@ const JobsPage = () => {
     setInitialLoad(false);
 
     // Combine tags and the current input value for the query
-    const allSearchTerms = [...searchTags.map(tag => tag.name), searchInput.trim()].filter(Boolean);
-    const query = allSearchTerms.join(' ');
+    const allSearchTerms = [
+      ...searchTags.map((tag) => tag.name),
+      searchInput.trim(),
+    ].filter(Boolean);
+    const query = allSearchTerms.join(" ");
 
     try {
       const response = await fetch(
@@ -98,10 +102,14 @@ const JobsPage = () => {
       if (!response.ok) {
         throw new Error("Something went wrong. Please try again later.");
       }
-      const result = await response.json() as { data?: JSearchApiResponse | Job[] };
+      const result = (await response.json()) as {
+        data?: JSearchApiResponse | Job[];
+      };
 
       // Safely access the jobs array, which might be nested one or two levels deep
-      const jobsArray = Array.isArray(result.data) ? result.data : result.data?.data ?? [];
+      const jobsArray = Array.isArray(result.data)
+        ? result.data
+        : (result.data?.data ?? []);
       setJobs(jobsArray);
     } catch (err) {
       if (err instanceof Error) {
@@ -120,14 +128,17 @@ const JobsPage = () => {
       // This would typically fetch skills from the user's profile/skill wallet
       // For now, we'll add some dummy skills as tags
       const dummySkills = [
-        { id: 'skill-1', name: 'JavaScript', category: 'skill' as const },
-        { id: 'skill-2', name: 'React', category: 'skill' as const },
-        { id: 'skill-3', name: 'Node.js', category: 'skill' as const },
+        { id: "skill-1", name: "JavaScript", category: "skill" as const },
+        { id: "skill-2", name: "React", category: "skill" as const },
+        { id: "skill-3", name: "Node.js", category: "skill" as const },
       ];
 
       // Add skills as tags (avoiding duplicates)
-      const newSkills = dummySkills.filter(skill =>
-        !searchTags.some(tag => tag.name.toLowerCase() === skill.name.toLowerCase())
+      const newSkills = dummySkills.filter(
+        (skill) =>
+          !searchTags.some(
+            (tag) => tag.name.toLowerCase() === skill.name.toLowerCase(),
+          ),
       );
 
       if (newSkills.length > 0) {
@@ -135,7 +146,7 @@ const JobsPage = () => {
         setShouldSearchAfterTagsUpdate(true);
       }
     } catch (err) {
-      console.error('Failed to fetch skills:', err);
+      console.error("Failed to fetch skills:", err);
     } finally {
       setIsFetchingSkills(false);
     }
@@ -147,7 +158,7 @@ const JobsPage = () => {
       handleSearch();
       setShouldSearchAfterTagsUpdate(false); // Reset the flag
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTags, shouldSearchAfterTagsUpdate]);
 
   // Helper to format the job posting date
@@ -156,8 +167,8 @@ const JobsPage = () => {
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    if (diffDays <= 1) return 'Today';
-    if (diffDays <= 2) return 'Yesterday';
+    if (diffDays <= 1) return "Today";
+    if (diffDays <= 2) return "Yesterday";
     return `${diffDays} days ago`;
   };
 
@@ -203,7 +214,10 @@ const JobsPage = () => {
                     onKeyDown={handleKeyDown}
                   />
                 </div>
-                <button onClick={handleSearch} className="px-6 py-3 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 transition-colors self-stretch">
+                <button
+                  onClick={handleSearch}
+                  className="self-stretch rounded-r-lg bg-blue-600 px-6 py-3 text-white transition-colors hover:bg-blue-700"
+                >
                   {t("jobs.searchButton")}
                 </button>
               </div>
@@ -214,7 +228,7 @@ const JobsPage = () => {
             <button
               onClick={handleFetchSkills}
               disabled={isFetchingSkills}
-              className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-green-300 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-green-300"
             >
               {isFetchingSkills ? (
                 <>
@@ -229,12 +243,13 @@ const JobsPage = () => {
               )}
             </button>
           </div>
-
         </div>
 
         <div className="mt-12">
           {loading && (
-            <div className="text-center text-gray-600">{t("jobs.loadingJobs")}</div>
+            <div className="text-center text-gray-600">
+              {t("jobs.loadingJobs")}
+            </div>
           )}
           {error && (
             <div className="rounded-lg bg-red-100 p-4 text-center text-red-500">
@@ -276,7 +291,11 @@ const JobsPage = () => {
                                 {job.employer_name}
                               </p>
                             </div>
-                            <span className="text-xs text-gray-500 whitespace-nowrap pt-1">{new Date(job.job_posted_at_timestamp * 1000).toLocaleDateString()}</span>
+                            <span className="pt-1 text-xs whitespace-nowrap text-gray-500">
+                              {new Date(
+                                job.job_posted_at_timestamp * 1000,
+                              ).toLocaleDateString()}
+                            </span>
                           </div>
                           <div className="mt-2 flex items-center text-sm text-gray-500">
                             <MapPin className="mr-2 h-4 w-4 shrink-0" />
@@ -295,8 +314,10 @@ const JobsPage = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center text-gray-500 py-10">
-                  <h3 className="text-xl font-semibold">{t("jobs.noJobsFound")}</h3>
+                <div className="py-10 text-center text-gray-500">
+                  <h3 className="text-xl font-semibold">
+                    {t("jobs.noJobsFound")}
+                  </h3>
                   <p>{t("jobs.tryAdjusting")}</p>
                 </div>
               )}

@@ -205,7 +205,11 @@ export function QuizEngine({
             <CardTitle className="text-center text-2xl font-bold text-slate-800 md:text-3xl">
               {(currentQuestionId
                 ? quizType === "domain-1112"
-                  ? getQuizTranslation(quizType, locale, `questions.${currentQuestionId}`)
+                  ? getQuizTranslation(
+                      quizType,
+                      locale,
+                      `questions.${currentQuestionId}`,
+                    )
                   : getQuizTranslation(quizType, locale, currentQuestionId)
                 : null) || currentQuestion.text}
             </CardTitle>

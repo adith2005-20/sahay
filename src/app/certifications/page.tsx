@@ -1,22 +1,22 @@
 "use client";
 
-import { createClient } from '@/app/utils/supabase/client'
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, Calendar, AlertCircle, CheckCircle2 } from 'lucide-react'
-import { useTranslation } from '@/contexts/LanguageContext'
+import { createClient } from "@/app/utils/supabase/client";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2, Calendar, AlertCircle, CheckCircle2 } from "lucide-react";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 // FIX 1: Removed 'user' from the form data interface.
 // The user ID is fetched from the session, not entered in the form.
 interface CertificationFormData {
-  certificate_number: string
-  main_skill: string
-  secondary_skill: string
-  certification_name: string
-  issued_at: string
+  certificate_number: string;
+  main_skill: string;
+  secondary_skill: string;
+  certification_name: string;
+  issued_at: string;
 }
 
 // Define the shape of the certification data returned by the API
@@ -40,18 +40,17 @@ interface ApiResponse {
   data?: Certification;
 }
 
-
 export default function CertificationPage() {
   const { t } = useTranslation();
   const [formData, setFormData] = useState<CertificationFormData>({
-    certificate_number: '',
-    main_skill: '',
-    secondary_skill: '',
-    certification_name: '',
-    issued_at: '',
-  })
+    certificate_number: "",
+    main_skill: "",
+    secondary_skill: "",
+    certification_name: "",
+    issued_at: "",
+  });
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState<{
     type: "success" | "error";
     message: string;
@@ -85,7 +84,7 @@ export default function CertificationPage() {
       const { data, error: sessionError } = await supabase.auth.getSession();
 
       if (sessionError || !data.session) {
-        throw new Error('Could not get user session. Please log in again.');
+        throw new Error("Could not get user session. Please log in again.");
       }
 
       const userId = data.session.user.id;
@@ -114,24 +113,31 @@ export default function CertificationPage() {
         );
       }
 
-      setSubmissionStatus({ type: 'success', message: 'Certification added successfully!' })
+      setSubmissionStatus({
+        type: "success",
+        message: "Certification added successfully!",
+      });
 
       // Reset form
       setFormData({
-        certificate_number: '',
-        main_skill: '',
-        secondary_skill: '',
-        certification_name: '',
-        issued_at: '',
-      })
-      setCertificationFile(null)
-      const fileInput = document.getElementById('certification_file') as HTMLInputElement;
-      if (fileInput) fileInput.value = '';
-
+        certificate_number: "",
+        main_skill: "",
+        secondary_skill: "",
+        certification_name: "",
+        issued_at: "",
+      });
+      setCertificationFile(null);
+      const fileInput = document.getElementById(
+        "certification_file",
+      ) as HTMLInputElement;
+      if (fileInput) fileInput.value = "";
     } catch (error: unknown) {
-      console.error('Submission error:', error)
-      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.';
-      setSubmissionStatus({ type: 'error', message: errorMessage })
+      console.error("Submission error:", error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred.";
+      setSubmissionStatus({ type: "error", message: errorMessage });
     } finally {
       setIsSubmitting(false);
     }
@@ -140,9 +146,9 @@ export default function CertificationPage() {
   // FIX 3: Updated validation logic to remove the check for 'user'.
   const isFormValid = () => {
     return (
-      formData.main_skill.trim() !== '' &&
-      formData.certification_name.trim() !== '' &&
-      formData.issued_at !== '' &&
+      formData.main_skill.trim() !== "" &&
+      formData.certification_name.trim() !== "" &&
+      formData.issued_at !== "" &&
       certificationFile !== null
     );
   };
@@ -166,7 +172,6 @@ export default function CertificationPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
-
             <div className="space-y-2">
               <Label
                 htmlFor="certification_name"
@@ -302,7 +307,14 @@ export default function CertificationPage() {
                 size="lg"
                 disabled={!isFormValid() || isSubmitting}
               >
-                {isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" />Submitting...</>) : ('Submit Certification')}
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  "Submit Certification"
+                )}
               </Button>
             </div>
           </form>
