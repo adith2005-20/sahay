@@ -17,19 +17,13 @@ import {
   type Answer,
   type Question,
 } from "@/data/domain-quiz-data";
-import {
-  type Domain1112QuizData,
-  type Answer as Answer1112,
-  type Question as Question1112,
-} from "@/data/domain-1112-quiz-data";
 import { merge } from "lodash";
 import { useTranslation } from "@/contexts/LanguageContext";
 import { getQuizTranslation } from "@/lib/quiz-translations";
 
 // Define the types for our component's props and state
 interface QuizEngineProps {
-  quizData: DomainQuizData | Domain1112QuizData;
-  quizType: "domain" | "domain-1112";
+  quizData: DomainQuizData;
   onComplete: (
     results: Record<string, unknown>,
     history: ResponseHistory,
@@ -45,17 +39,13 @@ type ResponseHistory = Record<
   }
 >;
 
-export function QuizEngine({
-  quizData,
-  quizType,
-  onComplete,
-}: QuizEngineProps) {
+export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
   const { t, locale } = useTranslation();
   const [quizState, setQuizState] = useState<
     "intro" | "in_progress" | "completed"
   >("intro");
   const [currentQuestionId, setCurrentQuestionId] = useState<string | null>(
-    quizData.startQuestionID,
+    quizData.startQuestionId,
   );
   const [results, setResults] = useState<Record<string, unknown>>({});
   const [history, setHistory] = useState<ResponseHistory>({});
@@ -80,27 +70,24 @@ export function QuizEngine({
 
     // Update results based on profileImpact
     const newResults = { ...results };
-    const impact = answer.profile_impact;
-
-    // Merge the profile impact into results using lodash merge
-    merge(newResults, impact);
+    const impact = question.profileImpact.domain_scores;
+    for (const key in impact) {
+      if (impact[key] === "response_value") {
+        newResults[key] = ((newResults[key] as number) ?? 0) + answer.value;
+      }
+    }
     setResults(newResults);
 
     // Get translated question and answer text
     const currentQuestionText =
-      getQuizTranslation(quizType, locale, `questions.${currentQuestionId}`) ||
+      getQuizTranslation(locale, "domain", `questions.${question.id}`) ||
       question.text;
-
-    // Handle different translation patterns for different quiz types
     const selectedAnswerText =
-      quizType === "domain-1112"
-        ? getQuizTranslation(quizType, locale, `answers.${answer.text}`) ||
-          answer.text
-        : getQuizTranslation(
-            quizType,
-            locale,
-            `answers.${currentQuestionId}.${answerIndex}`,
-          ) || answer.text;
+      getQuizTranslation(
+        locale,
+        "domain",
+        `answers.${question.id}.${answerIndex}`,
+      ) || answer.text;
 
     // Record the detailed response in history
     const newHistory: ResponseHistory = {
@@ -116,8 +103,8 @@ export function QuizEngine({
     setAnsweredQuestions([...answeredQuestions, currentQuestionId]);
 
     // Move to next question or complete quiz
-    if (answer.nextQuestionId) {
-      setCurrentQuestionId(answer.nextQuestionId);
+    if (question.nextQuestionId) {
+      setCurrentQuestionId(question.nextQuestionId);
     } else {
       setQuizState("completed");
       onComplete(newResults, newHistory);
@@ -143,38 +130,38 @@ export function QuizEngine({
             <BookOpen className="text-primary h-12 w-12" />
           </div>
           <CardTitle className="mt-4 text-3xl font-bold">
-            {t(`quiz.${quizType}.title`)}
+            {t("quiz.domain.title")}
           </CardTitle>
           <CardDescription className="text-lg">
-            {t(`quiz.${quizType}.description`)}
+            {t("quiz.domain.description")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6 p-6">
           <div className="grid grid-cols-2 gap-4 text-left">
             <div className="rounded-lg border p-4">
               <p className="text-muted-foreground text-sm font-medium">
-                {t(`quiz.${quizType}.questions`)}
+                {t("quiz.domain.questions")}
               </p>
               <p className="text-2xl font-bold">{totalQuestions}</p>
             </div>
             <div className="rounded-lg border p-4">
               <p className="text-muted-foreground text-sm font-medium">
-                {t(`quiz.${quizType}.estimatedTime`)}
+                {t("quiz.domain.estimatedTime")}
               </p>
               <p className="text-2xl font-bold">
-                ~{estimatedTime} {t(`quiz.${quizType}.timeUnit`)}
+                ~{estimatedTime} {t("quiz.domain.timeUnit")}
               </p>
             </div>
           </div>
           <div className="space-y-3 rounded-lg border bg-slate-50 p-4 text-left">
             <h3 className="flex items-center gap-2 font-semibold">
               <Lightbulb className="h-5 w-5 text-yellow-500" />
-              {t(`quiz.${quizType}.tips.title`)}
+              {t("quiz.domain.tips.title")}
             </h3>
             <ul className="text-muted-foreground list-inside list-disc space-y-1 text-sm">
-              <li>{t(`quiz.${quizType}.tips.honest`)}</li>
-              <li>{t(`quiz.${quizType}.tips.instinct`)}</li>
-              <li>{t(`quiz.${quizType}.tips.noWrong`)}</li>
+              <li>{t("quiz.domain.tips.honest")}</li>
+              <li>{t("quiz.domain.tips.instinct")}</li>
+              <li>{t("quiz.domain.tips.noWrong")}</li>
             </ul>
           </div>
           <Button
@@ -182,7 +169,7 @@ export function QuizEngine({
             className="w-full text-lg"
             onClick={() => setQuizState("in_progress")}
           >
-            {t(`quiz.${quizType}.startButton`)}
+            {t("quiz.domain.startButton")}
           </Button>
         </CardContent>
       </Card>
@@ -203,11 +190,11 @@ export function QuizEngine({
           <CardHeader className="p-6">
             <Progress value={progress} className="mb-4" />
             <CardTitle className="text-center text-2xl font-bold text-slate-800 md:text-3xl">
-              {(currentQuestionId
-                ? quizType === "domain-1112"
-                  ? getQuizTranslation(quizType, locale, `questions.${currentQuestionId}`)
-                  : getQuizTranslation(quizType, locale, currentQuestionId)
-                : null) || currentQuestion.text}
+              {getQuizTranslation(
+                locale,
+                "domain",
+                `questions.${currentQuestion.id}`,
+              ) || currentQuestion.text}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
@@ -238,17 +225,11 @@ export function QuizEngine({
                           {String.fromCharCode(65 + answerIndex)}
                         </div>
                         <span className="flex-1">
-                          {quizType === "domain-1112"
-                            ? getQuizTranslation(
-                                quizType,
-                                locale,
-                                `answers.${answer.text}`,
-                              ) || answer.text
-                            : getQuizTranslation(
-                                quizType,
-                                locale,
-                                `answers.${answer.text}`,
-                              ) || answer.text}
+                          {getQuizTranslation(
+                            locale,
+                            "domain",
+                            `answers.${currentQuestion.id}.${answerIndex}`,
+                          ) || answer.text}
                         </span>
                       </div>
                     </Button>

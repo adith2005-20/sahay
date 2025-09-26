@@ -1,0 +1,264 @@
+{
+  "header": {
+    "title": "Welcome to Sahay",
+    "navigation": {
+      "dashboard": "Dashboard",
+      "profile": "Profile",
+      "jobs": "Jobs",
+      "certifications": "Certifications",
+      "quiz": "Quiz"
+    }
+  },
+  "button": {
+    "changeLanguage": "Change Language",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "login": "Login",
+    "logout": "Logout",
+    "signUp": "Sign Up",
+    "next": "Next",
+    "previous": "Previous",
+    "finish": "Finish",
+    "startQuiz": "Start Quiz"
+  },
+  "form": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "phone": "Phone Number",
+    "address": "Address",
+    "dateOfBirth": "Date of Birth",
+    "gender": "Gender"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "subtitle": "Enter your email below to login to your account",
+      "emailPlaceholder": "m@example.com",
+      "forgotPassword": "Forgot your password?",
+      "loggingIn": "Logging in...",
+      "continueWithGoogle": "Continue with Google",
+      "or": "or",
+      "dontHaveAccount": "Don't have an account?",
+      "signUpLink": "Sign up"
+    },
+    "signInTitle": "Sign in to your account",
+    "signUpTitle": "Create new account",
+    "forgotPassword": "Forgot password?",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "resetPassword": "Reset Password"
+  },
+  "dashboard": {
+    "welcome": "Welcome back!",
+    "nextSteps": "Your Next Steps",
+    "completedQuizzes": "Completed Quizzes",
+    "recommendations": "AI Recommendations",
+    "recentActivity": "Recent Activity",
+    "onboarding": "Onboarding",
+    "takeQuiz": "Take the onboarding quiz",
+    "quizDescription": "Kickstart your personalized experience by completing the RIASEC quiz. It only takes a couple of minutes.",
+    "profile": "Profile",
+    "completeProfile": "Complete your profile",
+    "profileDescription": "Add additional details to help tailor your experience on Sahay.",
+    "updateProfile": "Update profile",
+    "deepDive": "Deep-dive",
+    "studentQuiz": "For Students in 9th or 10th",
+    "studentQuizDescription": "Unsure about the next path ahead? Take this assessment and find out your forte.",
+    "seniorStudentQuiz": "For Students in 11th or 12th",
+    "seniorStudentQuizDescription": "Preparing for your final school years? Take this advanced assessment to discover your academic and career direction."
+  },
+  "aiAdvisor": {
+    "title": "AI Career Advisor",
+    "description": "I'll use your latest RIASEC record to craft a tailored learning and career plan.",
+    "askFollowUp": "Ask a follow-up (optional)",
+    "placeholder": "e.g., Emphasize options that balance creativity with stability",
+    "defaultPrompt": "Create a personalized guidance plan based on my RIASEC results.",
+    "thinking": "Thinking…",
+    "generatePlan": "Generate Plan",
+    "loadingRiasec": "Loading RIASEC…",
+    "failedResponse": "Failed to get AI response",
+    "unexpectedResponse": "Unexpected AI response",
+    "failedCall": "Failed to call AI"
+  },
+  "quiz": {
+    "title": "Career Assessment Quiz",
+    "instructions": "Answer the following questions honestly to get personalized career recommendations",
+    "question": "Question {{number}} of {{total}}",
+    "progress": "Progress: {{percentage}}%",
+    "riasec": {
+      "title": "RIASEC Assessment",
+      "description": "Discover your core interests to find matching career paths.",
+      "questions": "Questions",
+      "estimatedTime": "Est. Time",
+      "timeUnit": "mins",
+      "tips": {
+        "title": "Tips for Best Results",
+        "honest": "Answer honestly based on what you enjoy, not what you think you should.",
+        "instinct": "Don't overthink it—your first instinct is usually the best.",
+        "noWrong": "There are no right or wrong answers. This is about you!"
+      },
+      "startButton": "Start Assessment",
+      "completed": {
+        "title": "Assessment Complete!",
+        "description": "Thank you for sharing your interests. Your responses have been saved.",
+        "topInterests": "Your Top 3 Interest Areas (RIASEC Code)",
+        "personalization": "We will now use these results to personalize your career and education recommendations on your dashboard."
+      },
+      "scales": {
+        "stronglyDisagree": "Strongly disagree",
+        "neutral": "Neutral",
+        "stronglyAgree": "Strongly agree",
+        "notInterested": "Not at all interested",
+        "somewhatInterested": "Somewhat interested",
+        "veryInterested": "Very interested"
+      }
+    },
+    "domain": {
+      "title": "Domain Assessment (IX & X)",
+      "description": "Answer a few questions to help us understand your strengths and preferences.",
+      "questions": "Questions",
+      "estimatedTime": "Estimated Time",
+      "timeUnit": "mins",
+      "tips": {
+        "title": "Tips for Best Results",
+        "honest": "Be honest with your answers.",
+        "instinct": "Go with your first instinct.",
+        "noWrong": "There are no wrong answers.",
+        "personalize": "This will help us personalize your experience."
+      },
+      "startButton": "Start Assessment",
+      "completed": {
+        "title": "Assessment Complete!",
+        "description": "Thank you for your responses. We are now personalizing your dashboard.",
+        "questionsAnswered": "Questions Answered",
+        "resultsMessage": "Your responses will help us provide better career recommendations."
+      }
+    },
+    "domain-1112": {
+      "title": "Domain Assessment (XI & XII)",
+      "description": "Answer a few questions to help us understand your advanced academic preferences and strengths.",
+      "questions": "Questions",
+      "estimatedTime": "Estimated Time",
+      "timeUnit": "mins",
+      "tips": {
+        "title": "Tips for Best Results",
+        "honest": "Be honest with your answers.",
+        "instinct": "Go with your first instinct.",
+        "noWrong": "There are no wrong answers.",
+        "personalize": "This will help us personalize your higher education experience."
+      },
+      "startButton": "Start Assessment",
+      "completed": {
+        "title": "Assessment Complete!",
+        "description": "Thank you for your responses. We are now personalizing your dashboard for higher education.",
+        "questionsAnswered": "Questions Answered",
+        "resultsMessage": "Your responses will help us provide better career and higher education recommendations."
+      }
+    },
+    "completed": {
+      "title": "Quiz Completed!",
+      "description": "Congratulations! You have successfully completed the assessment.",
+      "questionsAnswered": "Questions Answered",
+      "resultsMessage": "Your responses have been recorded and will help us provide better career guidance."
+    }
+  },
+  "jobs": {
+    "title": "Find Your Perfect Job",
+    "subtitle": "Discover Jobs Tailor-made for you",
+    "searchPlaceholder": "Search for jobs, skills, or location...",
+    "addMore": "Add more...",
+    "searchButton": "Search",
+    "loadingJobs": "Loading jobs...",
+    "searchError": "Please add a tag or type in the search bar to search.",
+    "noJobsFound": "No jobs found matching your criteria",
+    "applyNow": "Apply Now",
+    "viewDetails": "View Details",
+    "salary": "Salary",
+    "location": "Location",
+    "company": "Company",
+    "requirements": "Requirements",
+    "benefits": "Benefits",
+    "posted": "Posted",
+    "employmentType": "Employment Type"
+  },
+  "certifications": {
+    "title": "Certifications",
+    "addCertification": "Add Certification",
+    "noCertifications": "No certifications added yet",
+    "issuedBy": "Issued by",
+    "issuedDate": "Issue Date",
+    "expiryDate": "Expiry Date",
+    "form": {
+      "userId": "User ID",
+      "userIdPlaceholder": "Enter your User ID (for testing)",
+      "certificationName": "Certification Name",
+      "certificationNamePlaceholder": "e.g., Certified JavaScript Developer",
+      "mainSkill": "Main Skill",
+      "mainSkillPlaceholder": "e.g., JavaScript",
+      "secondarySkill": "Secondary Skill",
+      "secondarySkillPlaceholder": "e.g., React (Optional)",
+      "certificateNumber": "Certificate Number or ID",
+      "certificateNumberPlaceholder": "Enter certificate number (Optional)",
+      "issueDate": "Issue Date",
+      "certificationFile": "Certification File",
+      "fileFormats": "Accepted formats: PDF, PNG, JPG (Max 10MB)",
+      "required": "*"
+    },
+    "messages": {
+      "submitSuccess": "Certification added successfully!",
+      "submitError": "An unexpected error occurred.",
+      "submitting": "Submitting...",
+      "submitCertification": "Submit Certification",
+      "pleaseSelectFile": "Please select a certification file to upload."
+    }
+  },
+  "profile": {
+    "title": "Account Settings",
+    "subtitle": "Manage your account information and preferences.",
+    "photo": {
+      "title": "Your Photo",
+      "description": "This will be displayed on your profile.",
+      "changePhoto": "Change photo",
+      "changePhotoAria": "Change profile picture"
+    },
+    "form": {
+      "username": "Username",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "emailAddress": "Email address",
+      "collegeName": "College name",
+      "location": "Location",
+      "phoneNumber": "Phone number",
+      "birthday": "Birthday"
+    },
+    "messages": {
+      "fileSizeError": "File size must be less than 5MB",
+      "profileUpdated": "Profile updated successfully!",
+      "updateError": "Error: {{message}}",
+      "saving": "Saving...",
+      "save": "Save"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success!",
+    "warning": "Warning",
+    "info": "Information",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "date": "Date",
+    "time": "Time",
+    "name": "Name",
+    "description": "Description",
+    "status": "Status",
+    "retry": "Retry",
+    "refresh": "Refresh"
+  }
+}
