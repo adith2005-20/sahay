@@ -253,10 +253,10 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
     >
       <Card className="text-center shadow-lg">
         <CardHeader className="p-6">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-            <CheckCircle className="h-12 w-12 text-green-600" />
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-orange-100">
+            <CheckCircle className="h-12 w-12 text-orange-600" />
           </div>
-          <CardTitle className="mt-4 text-3xl font-bold text-green-800">
+          <CardTitle className="mt-4 text-3xl font-bold text-orange-800">
             {t("quiz.completed.title")}
           </CardTitle>
           <CardDescription className="text-lg">
@@ -264,11 +264,11 @@ export function QuizEngine({ quizData, onComplete }: QuizEngineProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4 p-6">
-          <div className="rounded-lg border bg-green-50 p-4">
+          <div className="rounded-lg border bg-orange-50 p-4">
             <p className="text-muted-foreground text-sm">
               {t("quiz.completed.questionsAnswered")}
             </p>
-            <p className="text-2xl font-bold text-green-800">
+            <p className="text-2xl font-bold text-orange-800">
               {answeredQuestions.length}
             </p>
           </div>

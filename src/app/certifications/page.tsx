@@ -164,7 +164,7 @@ export default function CertificationPage() {
 
   return (
     <div className="container mx-auto max-w-2xl px-4 py-8">
-      <Card>
+      <Card className="relative overflow-hidden rounded-2xl border border-white/20 bg-white/10 dark:bg-black/20 backdrop-blur-2xl ring-1 ring-fuchsia-300/10 shadow-xl">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-bold">
             {t("certifications.addCertification")}
@@ -279,7 +279,7 @@ export default function CertificationPage() {
                 id="certification_file"
                 type="file"
                 onChange={handleFileChange}
-                className="w-full file:mr-4 file:rounded-md file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100"
+                className="w-full file:mr-4 file:rounded-md file:border-0 file:bg-orange-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-orange-700 hover:file:bg-orange-100 dark:file:bg-orange-900/30 dark:file:text-orange-300 dark:hover:file:bg-orange-900/50"
               />
               <p className="text-muted-foreground text-xs">
                 {t("certifications.form.fileFormats")}
@@ -288,7 +288,7 @@ export default function CertificationPage() {
 
             {submissionStatus && (
               <div
-                className={`flex items-center gap-2 rounded-md p-3 text-sm ${submissionStatus.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
+                className={`flex items-center gap-2 rounded-md p-3 text-sm ${submissionStatus.type === "success" ? "bg-orange-100 text-orange-800" : "bg-red-100 text-red-800"}`}
               >
                 {submissionStatus.type === "success" ? (
                   <CheckCircle2 className="h-4 w-4" />

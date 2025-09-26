@@ -2,16 +2,25 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+function Card({ className, children, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        "bg-card text-card-foreground relative overflow-hidden rounded-xl border ring-1 py-6 shadow-sm",
+        // Subtle orange accents that play nicely with existing themes
+        "border-orange-200/30 ring-orange-300/10 dark:border-orange-400/20 dark:ring-orange-400/10",
         className
       )}
       {...props}
-    />
+    >
+      {/* Orange tint overlay */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-orange-400/5 via-transparent to-amber-500/8 dark:from-orange-500/8 dark:to-amber-600/10" />
+      {/* Content layer */}
+      <div className="relative z-10 flex flex-col gap-6">
+        {children}
+      </div>
+    </div>
   )
 }
 
