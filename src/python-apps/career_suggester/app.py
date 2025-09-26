@@ -18,7 +18,7 @@ gemini_api_key = os.getenv("GEMINI_API_KEY")
 if not gemini_api_key:
     raise ValueError("Gemini API Key must be set in the .env file.")
 genai.configure(api_key=gemini_api_key)
-llm = genai.GenerativeModel('gemini-2.5-flash')
+llm = genai.GenerativeModel('gemini-2.0-flash')
 
 app = FastAPI()
 
@@ -113,7 +113,6 @@ async def suggest_path(user_request: UserRequest):
         print(f"An error occurred: {e}")
         raise HTTPException(status_code=500, detail="An internal server error occurred")
 
-# --- TEST SCRIPT (runs only when you execute `python app.py`) ---
 if __name__ == "__main__":
     def run_test():
         print("--- Running in Test Mode ---")
@@ -121,14 +120,12 @@ if __name__ == "__main__":
         user_id = "fb376fe8-f324-4ddb-a122-2fe5d993d893"
         print(f"Testing with user_id: {user_id}")
 
-        # FIX: Removed .single() to get a list, which is more robust
         riasec_response_list = supabase.table('user_riasec_record').select('*').eq('user_id', user_id).order('created_at', desc=True).limit(1).execute()
         
-        # Now, we check if the list has data before trying to access it
         if not riasec_response_list.data:
             riasec_scores = {}
         else:
-            riasec_data = riasec_response_list.data[0] # This now works correctly
+            riasec_data = riasec_response_list.data[0]
             riasec_scores = {k: v for k, v in riasec_data.items() if k not in ['id', 'user_id', 'created_at']}
         
         quiz_response_list = supabase.table('user_quiz_responses').select('response_data').eq('user_id', user_id).eq('quiz_type', '9_10').order('created_at', desc=True).limit(1).execute()
@@ -139,6 +136,7 @@ if __name__ == "__main__":
 
         full_quiz_data = quiz_response_list.data[0].get('response_data', {})
         quiz_results = full_quiz_data.get('responseData', {}).get('results')
+        print(quiz_results)
         if not quiz_results:
             print("Error: Malformed quiz data in database.")
             return

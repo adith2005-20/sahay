@@ -72,11 +72,9 @@ export function RiasecQuiz({ quizData, onComplete }: RiasecQuizProps) {
     // 2. Record the detailed response in history
     const newHistory = { ...history };
     const translatedQuestion =
-      getQuizTranslation(
-        "riasec",
-        locale,
-        `questions.${currentQuestionId}.text`,
-      ) || question.text;
+      (currentQuestionId
+        ? getQuizTranslation("riasec", locale, currentQuestionId)
+        : null) || question.text;
     newHistory[currentQuestionId] = {
       questionText: translatedQuestion,
       responseValue: value,
@@ -178,11 +176,9 @@ export function RiasecQuiz({ quizData, onComplete }: RiasecQuizProps) {
             <CardHeader className="p-6">
               <Progress value={progress} className="mb-4" />
               <CardTitle className="text-center text-2xl font-bold text-slate-800 md:text-3xl">
-                {getQuizTranslation(
-                  "riasec",
-                  locale,
-                  `questions.${currentQuestionId}.text`,
-                ) || currentQuestion.text}
+                {(currentQuestionId
+                  ? getQuizTranslation("riasec", locale, currentQuestionId)
+                  : null) || currentQuestion.text}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6">

@@ -1,44 +1,65 @@
-'use client';
+"use client";
 
-import { QuizEngine } from '@/app/_components/GeneralQuiz';
-import { domainQuizData } from '@/data/domain-quiz-data';
-import { createClient } from '@/app/utils/supabase/client';
-import { useRouter } from 'next/navigation';
-type ResponseHistory = Record<string, {
-  questionText: string;
-  selectedAnswerText: string;
-}>;
+import { QuizEngine } from "@/components/QuizEngine";
+import { domain1112QuizData } from "@/data/domain-1112-quiz-data";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
-export default function DomainQuizPage() {
-    const supabase = createClient();
-    const router = useRouter();
-  
-  const handleQuizComplete = async (results: Record<string, unknown>, history: ResponseHistory) => {
-    
+type ResponseHistory = Record<
+  string,
+  {
+    questionText: string;
+    selectedAnswerText: string;
+  }
+>;
+
+export default function Domain1112QuizPage() {
+  const supabase = createClient();
+  const router = useRouter();
+
+  const handleQuizComplete = async (
+    results: Record<string, unknown>,
+    history: ResponseHistory,
+  ) => {
     const submissionPayload = {
-        quizType: '9_10',
-        responseData: {
-            results,
-            history
-        }
+      quizType: "11_12",
+      responseData: {
+        results,
+        history,
+      },
     };
 
-    const {data, error} = await supabase.auth.getUser();    
-    const {error: insertError} = await supabase
-    .from('user_quiz_responses')
-    .insert({user_id:data.user?.id, quiz_type:'9_10',response_data:submissionPayload});
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) {
+        console.error("User not found, redirecting to login.");
+        router.push('/login');
+        return;
+    }
 
-    // Example of how you would call your tRPC mutation
-    // const { mutate } = api.quiz.submitResponse.useMutation();
-    // mutate(submissionPayload);
-    //
-    // Then, router.push('/dashboard');
-    setTimeout(()=>{router.push('/dashboard')},3000)
+    const { error: insertError } = await supabase
+      .from("user_quiz_responses")
+      .insert({
+        user_id: data.user.id,
+        quiz_type: "11_12",
+        response_data: submissionPayload,
+      });
+
+    if (insertError) {
+        console.error("Failed to save quiz response:", insertError.message);
+        // Optionally, show an error message to the user
+        return;
+    }
+
+    // Redirect to the dashboard after a short delay to show the completion screen.
+    setTimeout(() => {
+      router.push("/dashboard");
+    }, 3000);
   };
 
   return (
     <QuizEngine
-      quizData={domainQuizData}
+      quizData={domain1112QuizData}
+      quizType="domain-1112"
       onComplete={handleQuizComplete}
     />
   );

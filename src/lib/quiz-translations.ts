@@ -9,9 +9,14 @@ import domainEn from "@/locales/quiz-questions/domain-en.json";
 import domainHi from "@/locales/quiz-questions/domain-hi.json";
 import domainKs from "@/locales/quiz-questions/domain-ks.json";
 
+import domain1112En from "@/locales/quiz-questions/domain-1112-en.json";
+import domain1112Hi from "@/locales/quiz-questions/domain-1112-hi.json";
+import domain1112Ks from "@/locales/quiz-questions/domain-1112-ks.json";
+
 type QuizTranslations = {
   riasec: Record<Locale, Record<string, string>>;
   domain: Record<Locale, Record<string, any>>;
+  "domain-1112": Record<Locale, Record<string, any>>;
 };
 
 const quizTranslations: QuizTranslations = {
@@ -25,10 +30,15 @@ const quizTranslations: QuizTranslations = {
     hi: domainHi as any,
     ks: domainKs as any,
   },
+  "domain-1112": {
+    en: domain1112En as any,
+    hi: domain1112Hi as any,
+    ks: domain1112Ks as any,
+  },
 };
 
 export function getQuizTranslation(
-  quizType: "riasec" | "domain",
+  quizType: "riasec" | "domain" | "domain-1112",
   locale: Locale,
   key: string,
 ): string {

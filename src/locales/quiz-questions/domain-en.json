@@ -5,7 +5,9 @@
   "q4_academic_sst": "How comfortable are you with Social Studies topics?",
   "q5_academic_commerce": "How do you find Economics or Commerce subjects?",
   "q6_interests": "What type of activities do you enjoy most in your free time?",
+  "q6_learning_style": "You're given a project on a complex topic. What's your preferred way to work?",
   "q7_learning_style": "How do you prefer to learn new things?",
+  "q7_effort_tolerance": "After school and homework, how much extra time are you willing to put in for self-study or preparing for competitive exams?",
   "answers": {
     "mathematics": "Mathematics",
     "science": "Science (Physics, Chemistry, Biology)",
@@ -32,6 +34,12 @@
     "visual_aids": "Visual aids (diagrams, videos, presentations)",
     "reading_text": "Reading from textbooks and written materials",
     "discussion_group": "Group discussions and collaborative learning",
-    "practice_repetition": "Practice and repetition"
+    "practice_repetition": "Practice and repetition",
+    "structured_guide": "Follow a structured guide with clear steps and expected outcomes",
+    "analyze_data": "Dive into the data and analyze facts and figures to form a conclusion",
+    "creative_exploration": "Explore different creative ideas and present my findings in a unique way",
+    "high_effort": "A lot. I'm ready to dedicate 2-3 hours daily if needed",
+    "moderate_effort": "A moderate amount. Maybe an hour a day or more on weekends",
+    "low_effort": "Honestly, not much. I prefer to focus on schoolwork and have free time"
   }
 }
