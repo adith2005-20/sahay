@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { Search, MapPin, Users, X } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { Search, MapPin, Users, X, Loader2, BrainCircuit } from "lucide-react";
 import { useTranslation } from "@/contexts/LanguageContext";
 import SpotlightCard from "@/components/SpotlightCard";
 import ScrollFade from "@/components/ScrollFade";
@@ -16,7 +16,7 @@ interface Job {
   job_state: string | null;
   job_country: string | null;
   job_apply_link: string;
-  job_posted_at: string;
+  job_posted_at_timestamp: number;
   job_employment_type: string;
 }
 
@@ -42,6 +42,9 @@ const JobsPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [initialLoad, setInitialLoad] = useState(true);
+  const [shouldSearchAfterTagsUpdate, setShouldSearchAfterTagsUpdate] =
+    useState(false);
+  const [isFetchingSkills, setIsFetchingSkills] = useState(false);
 
   const addTag = (tag: Tag) => {
     setSearchTags([...searchTags, tag]);
@@ -121,6 +124,56 @@ const JobsPage = () => {
     }
   };
 
+  const handleFetchSkills = async () => {
+    setIsFetchingSkills(true);
+    try {
+      // This would typically fetch skills from the user's profile/skill wallet
+      // For now, we'll add some dummy skills as tags
+      const dummySkills = [
+        { id: "skill-1", name: "JavaScript", category: "skill" as const },
+        { id: "skill-2", name: "React", category: "skill" as const },
+        { id: "skill-3", name: "Node.js", category: "skill" as const },
+      ];
+
+      // Add skills as tags (avoiding duplicates)
+      const newSkills = dummySkills.filter(
+        (skill) =>
+          !searchTags.some(
+            (tag) => tag.name.toLowerCase() === skill.name.toLowerCase(),
+          ),
+      );
+
+      if (newSkills.length > 0) {
+        setSearchTags([...searchTags, ...newSkills]);
+        setShouldSearchAfterTagsUpdate(true);
+      }
+    } catch (err) {
+      console.error("Failed to fetch skills:", err);
+    } finally {
+      setIsFetchingSkills(false);
+    }
+  };
+
+  // --- useEffect to trigger search after skills are added ---
+  useEffect(() => {
+    if (shouldSearchAfterTagsUpdate) {
+      handleSearch();
+      setShouldSearchAfterTagsUpdate(false); // Reset the flag
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTags, shouldSearchAfterTagsUpdate]);
+
+  // Helper to format the job posting date
+  const formatJobPostDate = (timestamp: number) => {
+    const date = new Date(timestamp * 1000);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays <= 1) return "Today";
+    if (diffDays <= 2) return "Yesterday";
+    return `${diffDays} days ago`;
+  };
+
   return (
     <div className="min-h-svh">
       <main className="mx-auto max-w-7xl px-4 pt-8 pb-28 sm:px-6 lg:px-8">
@@ -171,6 +224,26 @@ const JobsPage = () => {
                 </button>
               </div>
             </div>
+          </div>
+
+          <div className="mt-4">
+            <button
+              onClick={handleFetchSkills}
+              disabled={isFetchingSkills}
+              className="inline-flex items-center justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-green-300"
+            >
+              {isFetchingSkills ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t("jobs.fetchingSkills")}
+                </>
+              ) : (
+                <>
+                  <BrainCircuit className="mr-2 h-4 w-4" />
+                  {t("jobs.skillWalletButton")}
+                </>
+              )}
+            </button>
           </div>
         </div>
 
@@ -232,7 +305,7 @@ const JobsPage = () => {
                           </div>
                           <div className="mt-2 flex items-center text-sm text-gray-500">
                             <MapPin className="mr-2 h-4 w-4 shrink-0" />
-                            <span>{`${job.job_city ?? ""}${job.job_city && (job.job_state ?? job.job_country) ? ", " : ""}${job.job_state ?? ""}${job.job_state && job.job_country ? ", " : ""}${job.job_country ?? "Not specified"}`}</span>
+                            <span>{`${job.job_city ?? ""}${job.job_city && (job.job_state ?? job.job_country) ? ", " : ""}${job.job_state ?? ""}${job.job_state && job.job_country ? ", " : ""}${job.job_country ?? t("jobs.notSpecified")}`}</span>
                           </div>
                           <div className="mt-4">
                             <span className="inline-flex items-center rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-medium text-orange-800 capitalize dark:bg-orange-900/50 dark:text-orange-200">
@@ -249,9 +322,11 @@ const JobsPage = () => {
                   </div>
                 </ScrollFade>
               ) : (
-                <div className="text-center text-gray-500">
-                  <h3 className="text-xl font-semibold">No jobs found</h3>
-                  <p>Try adjusting your search tags to find more results.</p>
+                <div className="py-10 text-center text-gray-500">
+                  <h3 className="text-xl font-semibold">
+                    {t("jobs.noJobsFound")}
+                  </h3>
+                  <p>{t("jobs.tryAdjusting")}</p>
                 </div>
               )}
             </div>
